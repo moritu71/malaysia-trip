@@ -103,8 +103,8 @@ GitHub上で該当ファイルを編集するか、直したファイルを上�
 
 | ファイル | 場所 | いつ上げるか |
 |---|---|---|
-| `sw.js` | `var CACHE = "prep-v7";` | **毎回必ず**（v8, v9…） |
-| `index.html` | `var APP_VERSION = "2.0";` | 毎回（表示用） |
+| `sw.js` | `var CACHE = "prep-v8";` | **毎回必ず**（v9, v10…） |
+| `index.html` | `var APP_VERSION = "2.1";` | 毎回（表示用） |
 | `index.html` | `var DEFAULT_REV = 1;` | やること／持ち物の項目を足したときだけ |
 
 `CACHE` を上げ忘れると古いキャッシュが残り、更新が誰にも届きません。
