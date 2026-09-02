@@ -526,6 +526,13 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
       <button class="b sec" id="checkUpd" style="width:100%">更新を確認する</button>
       <p id="updMsg" style="margin:8px 0 0"></p>
       <p id="lastChk" style="margin:6px 0 0;font-size:12.5px;color:var(--muted)"></p>
+      <div id="forceBox" style="display:none;margin-top:14px">
+        <div class="newitems">
+          更新がうまく入らないときは、アプリ本体を捨てて取り直せます。
+          <b>チェック・メモ・プロフィール・添付ファイルは消えません。</b>
+          <button class="b dgr" id="forceBtn" style="width:100%;margin-top:9px">アプリ本体を入れ直す</button>
+        </div>
+      </div>
       <div id="installBox" style="display:none;margin-top:14px">
         <div class="newitems">
           まだオフライン用に保存されていません。ネットにつないだ状態で下を押すと、
@@ -604,7 +611,7 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
    ファイルを更新したら APP_VERSION を上げる。
    DEFAULTS のリストに項目を足したときは DEFAULT_REV も上げると、
    利用者に「新しい項目を取り込む」ボタンが出る。 */
-var APP_VERSION = "2.1";
+var APP_VERSION = "2.2";
 var DEFAULT_REV = 2;
 
 /* ---------------- storage ---------------- */
@@ -1453,7 +1460,7 @@ document.getElementById("installBtn").onclick=function(){
   var m=document.getElementById("updMsg");
   if(!navigator.onLine){ m.style.color="var(--red)"; m.textContent="ネットにつないでから押してください"; return; }
   m.style.color="var(--muted)"; m.textContent="保存しています…";
-  navigator.serviceWorker.register("./sw.js").then(function(r){
+  navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(function(r){
     bindReg(r); markChecked();
     document.getElementById("installBox").style.display="none";
     m.style.color="var(--green)"; m.textContent="保存しました。これでオフラインでも使えます。";
@@ -1465,16 +1472,61 @@ document.getElementById("installBtn").onclick=function(){
 document.getElementById("checkUpd").onclick=function(){
   var m=document.getElementById("updMsg");
   if(!navigator.onLine){ m.style.color="var(--muted)"; m.textContent="オフラインです。このまま使えます。"; return; }
-  if(!reg){ m.style.color="var(--muted)"; m.textContent="ホーム画面のアイコンから開いてください。"; return; }
   m.style.color="var(--muted)"; m.textContent="確認しています…";
-  reg.update().then(function(){
+
+  /* サーバーの版はキャッシュを通さず直接見る */
+  fetch("./version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){ return r.json(); })
+  .then(function(v){
     markChecked();
-    setTimeout(function(){
-      if(reg.waiting||reg.installing){ m.style.color="var(--gold-deep)"; m.textContent="新しいバージョンがあります。下のバナーから更新してください。"; }
-      else{ m.style.color="var(--green)"; m.textContent="最新の状態です"; }
-    },1500);
+    if(!v||!v.version) throw new Error("版が読めません");
+    if(v.version===APP_VERSION){
+      m.style.color="var(--green)"; m.textContent="最新の状態です（"+v.version+"）";
+      document.getElementById("forceBox").style.display="none";
+      return;
+    }
+    m.style.color="var(--gold-deep)";
+    m.textContent="サーバー側は "+v.version+"、この端末は "+APP_VERSION+" です。取り込んでいます…";
+    return navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(function(r){
+      bindReg(r); return r.update();
+    }).then(function(){
+      setTimeout(function(){
+        if(reg&&(reg.waiting||reg.installing)){
+          m.style.color="var(--gold-deep)"; m.textContent="新しいバージョンを取り込みました。下のバナーから更新してください。";
+        }else{
+          m.style.color="var(--red)";
+          m.textContent="うまく入れ替わりませんでした。下の「入れ直す」を使ってください。";
+          document.getElementById("forceBox").style.display="block";
+        }
+      },2500);
+    });
+  })
+  .catch(function(err){
+    m.style.color="var(--red)"; m.textContent="確認できませんでした（"+err.message+"）";
+    document.getElementById("forceBox").style.display="block";
+  });
+};
+
+/* 最後の手段：SWとキャッシュを捨てて取り直す。チェック・メモ・添付は消えない。 */
+document.getElementById("forceBtn").onclick=function(){
+  var m=document.getElementById("updMsg");
+  if(!navigator.onLine){ m.style.color="var(--red)"; m.textContent="ネットにつないでから押してください"; return; }
+  if(!confirm("アプリ本体を入れ直します。\nチェック・メモ・プロフィール・添付ファイルは消えません。\nよろしいですか？")) return;
+  m.style.color="var(--muted)"; m.textContent="入れ直しています…";
+  var jobs=[];
+  if("serviceWorker" in navigator){
+    jobs.push(navigator.serviceWorker.getRegistrations().then(function(rs){
+      return Promise.all(rs.map(function(r){ return r.unregister(); }));
+    }));
+  }
+  if(window.caches){
+    jobs.push(caches.keys().then(function(ks){
+      return Promise.all(ks.map(function(k){ return caches.delete(k); }));
+    }));
+  }
+  Promise.all(jobs).then(function(){
+    setTimeout(function(){ location.replace("./index.html?r="+Date.now()); },400);
   }).catch(function(){
-    m.style.color="var(--red)"; m.textContent="確認できませんでした";
+    m.style.color="var(--red)"; m.textContent="入れ直せませんでした。アイコンを削除してSafariから追加し直してください。";
   });
 };
 
