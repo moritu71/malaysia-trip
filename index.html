@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="マレーシア">
+<meta name="theme-color" content="#16243D">
+<title>マレーシア研修旅行</title>
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon-192.png">
+<style>
+:root{
+  --ink:#16243D; --ink-soft:#4A5A76; --muted:#78849B;
+  --line:#DFE3EA; --paper:#FFFFFF; --shell:#EEF1F5;
+  --gold:#E8A317; --gold-deep:#B87B08; --red:#C1272D; --green:#1E7A5A;
+  --r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--shell); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+/* hero */
+.hero{background:var(--ink);color:#fff;padding:calc(env(safe-area-inset-top) + 20px) 20px 18px;position:relative;}
+.hero .kicker{font-size:12.5px;letter-spacing:.08em;color:#9FB0C9;margin:0 0 12px;padding-right:70px;}
+.count{display:flex;align-items:baseline;gap:10px;}
+.count b{font-size:72px;line-height:.86;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.04em;color:var(--gold);}
+.count span{font-size:17px;color:#C9D4E4;font-weight:600;}
+.meet{margin-top:14px;padding-top:13px;border-top:1px solid rgba(255,255,255,.16);font-size:14px;color:#C9D4E4;}
+.meet strong{color:#fff;font-weight:700;}
+.bar{margin-top:13px;height:5px;border-radius:3px;background:rgba(255,255,255,.16);overflow:hidden;}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:3px;transition:width .35s ease;}
+.barnote{margin-top:7px;font-size:12.5px;color:#9FB0C9;font-variant-numeric:tabular-nums;}
+.clock{margin-top:11px;display:flex;gap:16px;font-size:13px;color:#9FB0C9;font-variant-numeric:tabular-nums;}
+.clock b{color:#fff;font-weight:700;font-size:15px;}
+.clock i{font-style:normal;}
+.day.today{box-shadow:0 0 0 2.5px var(--gold);}
+.day.today h2::before{content:"今日　";color:var(--gold-deep);}
+#editBtn{
+  position:absolute;top:calc(env(safe-area-inset-top) + 16px);right:16px;
+  appearance:none;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);
+  color:#fff;font:inherit;font-size:13px;font-weight:600;padding:6px 14px;border-radius:20px;cursor:pointer;
+}
+body.editing .clock{margin-top:11px;display:flex;gap:16px;font-size:13px;color:#9FB0C9;font-variant-numeric:tabular-nums;}
+.clock b{color:#fff;font-weight:700;font-size:15px;}
+.clock i{font-style:normal;}
+.day.today{box-shadow:0 0 0 2.5px var(--gold);}
+.day.today h2::before{content:"今日　";color:var(--gold-deep);}
+#editBtn{background:var(--gold);border-color:var(--gold);color:#2A1D00;}
+
+/* tabs */
+nav{position:sticky;top:0;z-index:20;background:rgba(238,241,245,.94);
+  backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);display:flex;overflow-x:auto;scrollbar-width:none;}
+nav::-webkit-scrollbar{display:none;}
+nav button{flex:0 0 auto;appearance:none;border:0;background:none;font:inherit;font-size:14.5px;
+  font-weight:600;color:var(--muted);padding:13px 15px;cursor:pointer;position:relative;white-space:nowrap;}
+nav button[aria-selected="true"]{color:var(--ink);}
+nav button[aria-selected="true"]::after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:2.5px;background:var(--ink);border-radius:2px;}
+nav button:focus-visible{outline:2px solid var(--gold);outline-offset:-3px;border-radius:6px;}
+
+main{padding:18px 14px 44px;max-width:660px;margin:0 auto;}
+.panel[hidden]{display:none;}
+
+.hint{background:#FDF2DC;color:#7A5200;border-radius:10px;padding:10px 13px;font-size:13.5px;margin-bottom:14px;display:none;}
+body.editing .hint{display:block;}
+
+/* groups */
+.group{background:var(--paper);border-radius:var(--r);margin-bottom:14px;overflow:hidden;}
+.ghead{display:flex;align-items:center;gap:9px;padding:13px 15px 11px;border-bottom:1px solid var(--line);}
+.ghead h2{margin:0;font-size:15.5px;font-weight:700;flex:1;}
+.due{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:#EDF0F5;color:var(--ink-soft);white-space:nowrap;}
+.due.now{background:#FBEAEA;color:var(--red);}
+.due.soon{background:#FDF2DC;color:var(--gold-deep);}
+.tally{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* items */
+.item{display:flex;gap:12px;padding:12px 15px;border-top:1px solid #F0F2F6;cursor:pointer;align-items:flex-start;}
+.item:first-of-type{border-top:0;}
+.item input[type=checkbox]{appearance:none;flex:0 0 auto;width:22px;height:22px;margin:1px 0 0;
+  border:2px solid #C2CAD8;border-radius:7px;background:#fff;cursor:pointer;position:relative;transition:background .12s,border-color .12s;}
+.item input:checked{background:var(--green);border-color:var(--green);}
+.item input:checked::after{content:"";position:absolute;left:6.5px;top:2.5px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(43deg);}
+.item input:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+.txt{flex:1;min-width:0;}
+.txt b{display:block;font-size:15px;font-weight:600;line-height:1.5;}
+.txt small{display:block;font-size:13px;color:var(--muted);line-height:1.55;margin-top:2px;}
+.item input:checked ~ .txt b{color:var(--muted);text-decoration:line-through;text-decoration-color:#C2CAD8;}
+.item input:checked ~ .txt small{color:#A6AFC0;}
+.flag{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;background:#FBEAEA;color:var(--red);margin-left:6px;vertical-align:1.5px;}
+
+/* edit affordances */
+.pen{display:none;flex:0 0 auto;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);
+  background:#F7F8FA;color:var(--ink-soft);font-size:14px;line-height:28px;text-align:center;cursor:pointer;}
+body.editing .pen{display:block;}
+body.editing .item{cursor:default;}
+body.editing .item input[type=checkbox]{opacity:.4;pointer-events:none;}
+.addrow{display:none;padding:11px 15px;border-top:1px solid #F0F2F6;}
+body.editing .addrow{display:block;}
+.addbtn{appearance:none;width:100%;border:1px dashed #C7CFDD;background:#FAFBFC;color:var(--ink-soft);
+  font:inherit;font-size:14px;font-weight:600;padding:10px;border-radius:10px;cursor:pointer;}
+.addbtn:active{background:#F1F4F8;}
+.addgroup{display:none;margin-bottom:14px;}
+body.editing .addgroup{display:block;}
+
+/* memo */
+.memo{background:var(--paper);border-radius:var(--r);padding:14px;}
+.memo textarea{width:100%;min-height:340px;border:1px solid var(--line);border-radius:10px;padding:12px;
+  font:inherit;font-size:15px;line-height:1.7;resize:vertical;color:var(--ink);background:#FCFDFE;}
+.memo textarea:focus{outline:2px solid var(--gold);outline-offset:-1px;}
+.saved{font-size:12.5px;color:var(--green);height:18px;margin:8px 0 0;}
+
+/* info blocks */
+.info{background:var(--paper);border-radius:var(--r);padding:15px;margin-bottom:14px;}
+.info h2{margin:0 0 10px;font-size:15.5px;font-weight:700;}
+.info h3{margin:16px 0 6px;font-size:13.5px;font-weight:700;color:var(--ink-soft);}
+.info h3:first-of-type{margin-top:0;}
+.info p{margin:0 0 8px;font-size:14.5px;}
+.info p:last-child{margin-bottom:0;}
+.info ul{margin:0;padding-left:19px;font-size:14.5px;}
+.info li{margin-bottom:5px;}
+.info li:last-child{margin-bottom:0;}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:14.5px;align-items:baseline;}
+dt{color:var(--muted);font-size:13.5px;white-space:nowrap;}
+dd{margin:0;font-weight:600;}
+.warn{border-left:3px solid var(--red);background:#FDF6F6;padding:10px 13px;border-radius:0 8px 8px 0;font-size:14px;margin:10px 0 0;}
+.warn b{color:var(--red);}
+
+/* itinerary */
+.day{background:var(--paper);border-radius:var(--r);margin-bottom:12px;padding:14px 15px;}
+.day h2{margin:0 0 3px;font-size:15px;font-weight:700;}
+.day .place{font-size:13px;color:var(--muted);margin:0 0 10px;}
+.day ol{margin:0;padding:0;list-style:none;}
+.day li{display:flex;gap:12px;font-size:14px;padding:4px 0;align-items:baseline;}
+.day time{flex:0 0 56px;color:var(--gold-deep);font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums;}
+.stay{margin-top:10px;padding-top:9px;border-top:1px solid #F0F2F6;font-size:12.5px;color:var(--muted);}
+
+/* modal */
+.sheet{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;
+  background:rgba(15,25,45,.45);padding:0;}
+.sheet.on{display:flex;}
+.card{background:var(--paper);width:100%;max-width:560px;border-radius:18px 18px 0 0;
+  padding:18px 16px calc(env(safe-area-inset-bottom) + 18px);max-height:88vh;overflow:auto;}
+.card h3{margin:0 0 14px;font-size:16.5px;font-weight:700;}
+label.f{display:block;font-size:13px;color:var(--muted);font-weight:600;margin:0 0 5px;}
+.card input[type=text],.card textarea,.card select{width:100%;border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;font:inherit;font-size:15.5px;color:var(--ink);background:#FCFDFE;margin-bottom:14px;}
+.card textarea{min-height:80px;resize:vertical;line-height:1.6;}
+.card input:focus,.card textarea:focus,.card select:focus{outline:2px solid var(--gold);outline-offset:-1px;}
+.chk{display:flex;align-items:center;gap:9px;margin-bottom:16px;font-size:14.5px;font-weight:600;cursor:pointer;}
+.chk input{width:20px;height:20px;accent-color:var(--red);}
+.row{display:flex;gap:9px;margin-bottom:10px;}
+.row button{flex:1;}
+button.b{appearance:none;border:0;font:inherit;font-size:15px;font-weight:600;padding:12px;border-radius:11px;cursor:pointer;}
+.b.pri{background:var(--ink);color:#fff;}
+.b.sec{background:#EDF0F5;color:var(--ink-soft);}
+.b.dgr{background:#FBEAEA;color:var(--red);}
+.b:active{opacity:.82;}
+
+/* settings */
+.set{background:var(--paper);border-radius:var(--r);padding:15px;margin-bottom:14px;}
+.set h2{margin:0 0 8px;font-size:15.5px;font-weight:700;}
+.set p{margin:0 0 12px;font-size:13.5px;color:var(--muted);}
+.set textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:10px;padding:11px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.5;background:#FCFDFE;color:var(--ink);}
+footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;}
+
+/* update banner */
+#upd{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 12px);z-index:70;
+  background:var(--ink);color:#fff;border-radius:14px;padding:13px 15px;display:none;
+  align-items:center;gap:12px;box-shadow:0 8px 26px rgba(15,25,45,.3);}
+#upd.on{display:flex;}
+#upd span{flex:1;font-size:14px;line-height:1.45;}
+#upd button{appearance:none;border:0;background:var(--gold);color:#2A1D00;font:inherit;font-size:14px;
+  font-weight:700;padding:9px 16px;border-radius:20px;cursor:pointer;white-space:nowrap;}
+.vrow{display:flex;align-items:baseline;gap:8px;font-size:13.5px;color:var(--muted);margin-bottom:12px;}
+.vrow b{color:var(--ink);font-size:15px;font-variant-numeric:tabular-nums;}
+.newitems{background:#FDF2DC;color:#7A5200;border-radius:10px;padding:11px 13px;font-size:13.5px;margin-bottom:12px;}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker" id="kicker">令和8年度 米子高専 マレーシア研修旅行</p>
+  <button id="editBtn">編集</button>
+  <div class="count"><b id="days">–</b><span id="daysLabel">出発まで</span></div>
+  <div class="meet" id="meet">集合 <strong>9/7(月) 15:15</strong> 米子鬼太郎空港 1階 セブンイレブン前<br>NH388 17:15発 → 羽田 → NH885 23:30発（機内泊）</div>
+  <div class="clock" id="clock"></div>
+  <div class="bar"><i id="progBar" style="width:0%"></i></div>
+  <p class="barnote" id="progText">準備 0 / 0</p>
+</header>
+
+<nav role="tablist">
+  <button role="tab" aria-selected="true" data-p="todo">やること</button>
+  <button role="tab" aria-selected="false" data-p="pack">持ち物</button>
+  <button role="tab" aria-selected="false" data-p="memo">メモ</button>
+  <button role="tab" aria-selected="false" data-p="rules">荷物ルール</button>
+  <button role="tab" aria-selected="false" data-p="local">現地情報</button>
+  <button role="tab" aria-selected="false" data-p="days">日程</button>
+  <button role="tab" aria-selected="false" data-p="set">設定</button>
+</nav>
+
+<main>
+  <section class="panel" id="p-todo"></section>
+  <section class="panel" id="p-pack" hidden></section>
+
+  <section class="panel" id="p-memo" hidden>
+    <div class="memo">
+      <textarea id="memo" placeholder="自由に書けます。保険会社の緊急連絡先、部屋番号、バディの名前、買うもの、反省点など。入力すると自動で保存されます。"></textarea>
+      <p class="saved" id="memoSaved"></p>
+    </div>
+  </section>
+
+  <section class="panel" id="p-rules" hidden>
+    <div class="info">
+      <h2>預け入れ荷物（スーツケース）</h2>
+      <dl>
+        <dt>個数</dt><dd>最大2個</dd>
+        <dt>重量</dt><dd>1個 23kg 以下</dd>
+        <dt>サイズ</dt><dd>3辺の合計 158cm 以内</dd>
+      </dl>
+      <p style="margin-top:10px;font-size:13.5px;color:var(--muted)">キャスターと持ち手を含む。超過すると超過料金。TSAロック仕様が望ましい。</p>
+      <div class="warn"><b>預けてはいけない</b>：パソコン、カメラ、時計などの高価品・壊れ物、そして<b>モバイルバッテリー</b>。発火事案が増加しているため必ず手荷物へ。</div>
+    </div>
+    <div class="info">
+      <h2>手荷物（機内持ち込み）</h2>
+      <dl>
+        <dt>個数</dt><dd>最大1個 + 身の回り品</dd>
+        <dt>重量</dt><dd>10kg 以下</dd>
+        <dt>サイズ</dt><dd>3辺の合計 115cm 以内<br>各辺 55 × 40 × 25cm 以内</dd>
+      </dl>
+      <h3>液体物のルール</h3>
+      <ul>
+        <li>1容器 100ml 以下（大きい容器に少量でも不可）</li>
+        <li>容量1L以内・縦横の合計40cm以内の透明ジップ袋に入れる</li>
+        <li>袋は<b>1人1つだけ</b></li>
+        <li>飲料、クリーム、ローション、香水、スプレー、シャンプー、歯磨き粉なども対象</li>
+      </ul>
+      <h3>持ち込めないもの</h3>
+      <p style="font-size:14px">ナイフ、ハサミ、カッター、ドライバー、アイスピック、アーミーナイフ、バット類。→ スーツケースに入れて預ける。発火性物質は預け入れも不可。</p>
+    </div>
+    <div class="info">
+      <h2>モバイルバッテリー</h2>
+      <dl>
+        <dt>100Wh以下<br><span style="font-weight:400">(〜27,027mAh)</span></dt><dd>機内持ち込み可・個数制限なし<br>預け入れは不可</dd>
+        <dt>100〜160Wh<br><span style="font-weight:400">(〜43,243mAh)</span></dt><dd>機内持ち込み 2個まで<br>預け入れは不可</dd>
+        <dt>160Wh超</dt><dd style="color:var(--red)">持ち込み・預け入れ ともに不可</dd>
+      </dl>
+      <div class="warn">出発前に本体の表示を確認しておくこと。容量が読めないバッテリーは没収される場合があります。</div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-local" hidden>
+    <div class="info">
+      <h2>基本データ</h2>
+      <dl>
+        <dt>時差</dt><dd>日本 −1時間<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">日本 16:00 = 現地 15:00</span></dd>
+        <dt>通貨</dt><dd>リンギット(RM) 約38.6円</dd>
+        <dt>気温</dt><dd>最高27–32℃ / 最低20–25℃</dd>
+        <dt>天候</dt><dd>湿度74%。スコールは必ずある</dd>
+        <dt>言語</dt><dd>マレー語。英語がよく通じる</dd>
+        <dt>宗教</dt><dd>イスラム教が国教</dd>
+      </dl>
+    </div>
+    <div class="info">
+      <h2>MDAC（電子入国カード）</h2>
+      <dl>
+        <dt>登録可能</dt><dd>9/6(土) 〜 9/8<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">到着日を含む3日前から</span></dd>
+        <dt>便名</dt><dd>NH885</dd>
+        <dt>到着日</dt><dd>9/8</dd>
+        <dt>公式</dt><dd style="font-size:13px;word-break:break-all">imigresen-online.imi.gov.my/mdac/main</dd>
+      </dl>
+      <div class="warn">登録は<b>無料</b>で、クレジットカード情報の入力もありません。費用を求めるサイトは偽物です。完了メールのPINとPDFは、オフラインで見られるように保存しておくこと。</div>
+    </div>
+    <div class="info">
+      <h2>電源</h2>
+      <dl>
+        <dt>電圧</dt><dd>AC 220V / 50Hz</dd>
+        <dt>プラグ</dt><dd>BF型（3芯）が主流<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">他に B / B3 / C 型もある</span></dd>
+      </dl>
+      <div class="warn">充電器やACアダプタが <b>AC100–240V対応</b> か必ず確認。日本国内向けAC100V専用の製品は<b>確実に壊れます</b>（火災の危険あり）。変換プラグは形を変えるだけで、電圧は変換しません。</div>
+    </div>
+    <div class="info">
+      <h2>通信の設定</h2>
+      <h3>現地に着いたら</h3>
+      <ul>
+        <li>機内モードを解除 → eSIM(Malaysia)を<b>オン</b></li>
+        <li>モバイルデータ通信の割り当てを eSIM に切り替え</li>
+        <li>eSIM側のデータローミングを<b>オン</b></li>
+        <li>UQ回線のデータローミングは<b>オフのまま</b></li>
+      </ul>
+      <h3>つながらないとき</h3>
+      <ul>
+        <li>ローミング設定とデータ割り当てを再確認</li>
+        <li>ネットワーク選択を自動 → 手動にして Maxis を選ぶ</li>
+        <li>機内モードのオン/オフ、それでもダメなら再起動</li>
+      </ul>
+      <h3>日本へ電話をかける</h3>
+      <p>「0」を長押しして「+」を出す → <b>+81</b> + 先頭の0を除いた番号<br>例：090-AAAA-BBBB → <b>+81-90-AAAA-BBBB</b></p>
+      <p style="font-size:13.5px;color:var(--muted)">連絡の基本は LINE グループ。国際ローミング通話は高額なので緊急時のみ。</p>
+    </div>
+    <div class="info">
+      <h2>健康・安全</h2>
+      <h3>飲食</h3>
+      <ul><li><b>水道水を含め生水は飲まない</b></li><li>加熱した料理を冷めないうちに食べる</li><li>手洗い・うがいを習慣に</li></ul>
+      <h3>蚊対策</h3>
+      <p>デング熱・チクングニア熱は都市部でも発生。ワクチンも特効薬もありません。長袖・長ズボン、虫よけスプレーで自衛する。</p>
+      <h3>熱中症</h3>
+      <p>気温が高く日差しも強い。ミネラルウォーターに加え、発汗で塩分も抜けるのでスポーツドリンクも。</p>
+      <h3>貴重品</h3>
+      <p>パスポート・財布は常に携行。繁華街や空港でスリ・盗難が多発。客室以外は公的な場なので、寝間着や肌着姿で部屋の外に出ない。</p>
+      <div class="warn"><b>帰国後</b>：発熱・下痢などの症状があれば感染症専門の病院（鳥大病院、県立厚生病院など）を受診し、<b>マレーシアに行っていたことを必ず伝える</b>。</div>
+    </div>
+    <div class="info">
+      <h2>緊急連絡先</h2>
+      <dl>
+        <dt>ゆうちょ mijica<br>（国内）</dt><dd>0120-504-186</dd>
+        <dt>ゆうちょ mijica<br>（海外から）</dt><dd>+81-3-5996-1282</dd>
+      </dl>
+      <p style="margin-top:12px;font-size:13.5px;color:var(--muted)">保険証書の緊急連絡先はメモ欄に書き足しておくと安心です。</p>
+    </div>
+  </section>
+
+  <section class="panel" id="p-days" hidden></section>
+
+  <section class="panel" id="p-set" hidden>
+    <div class="set">
+      <h2>バージョン</h2>
+      <div class="vrow">このアプリ <b id="vNow">–</b></div>
+      <div id="newItems" class="newitems" style="display:none">
+        リストに新しい項目が追加されています。取り込むと、今あるチェックや自分で足した項目はそのまま残ります。
+        <button class="b pri" id="mergeBtn" style="width:100%;margin-top:9px">新しい項目を取り込む</button>
+      </div>
+      <p><b>このアプリは自分から通信しません。</b>起動しても更新の確認はせず、
+      下のボタンを押したときだけネットにつなぎます。海外で通信量を気にせず使えます。</p>
+      <button class="b sec" id="checkUpd" style="width:100%">更新を確認する</button>
+      <p id="updMsg" style="margin:8px 0 0"></p>
+      <p id="lastChk" style="margin:6px 0 0;font-size:12.5px;color:var(--muted)"></p>
+      <div id="installBox" style="display:none;margin-top:14px">
+        <div class="newitems">
+          まだオフライン用に保存されていません。ネットにつないだ状態で下を押すと、
+          以後は通信なしで使えるようになります。
+          <button class="b pri" id="installBtn" style="width:100%;margin-top:9px">オフライン用に保存する</button>
+        </div>
+      </div>
+    </div>
+    <div class="set">
+      <h2>チェックを外す</h2>
+      <p>チェックした印だけを消します。項目そのものは残ります。</p>
+      <button class="b sec" id="clearChecks" style="width:100%">すべてのチェックを外す</button>
+    </div>
+    <div class="set">
+      <h2>項目を元に戻す</h2>
+      <p>追加・編集した項目をすべて破棄して、最初の状態に戻します。メモは消えません。</p>
+      <button class="b dgr" id="restoreDefaults" style="width:100%">初期状態に戻す</button>
+    </div>
+    <div class="set">
+      <h2>データの書き出し・読み込み</h2>
+      <p>下の枠の中身がチェックリストの全データです。直接書き換えて「読み込む」を押せば反映されます。バックアップとしてコピーしておくこともできます。</p>
+      <textarea id="json" spellcheck="false"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="b sec" id="dumpJson">現在の内容を表示</button>
+        <button class="b pri" id="loadJson">読み込む</button>
+      </div>
+      <p id="jsonMsg" style="margin:4px 0 0"></p>
+    </div>
+  </section>
+
+  <footer>
+    <p id="offline"></p>
+    <p>チェック・メモ・編集内容はこの端末に保存されます。<br>米子高専 事前説明会資料（2026/8/6）より作成。</p>
+  </footer>
+</main>
+
+<div id="upd"><span>新しいバージョンがあります</span><button id="updBtn">更新する</button></div>
+
+<!-- item editor -->
+<div class="sheet" id="itemSheet">
+  <div class="card">
+    <h3 id="itemTitle">項目を編集</h3>
+    <label class="f" for="fName">項目名</label>
+    <input type="text" id="fName" placeholder="例：変換プラグを買う">
+    <label class="f" for="fNote">補足（空でも可）</label>
+    <textarea id="fNote" placeholder="例：3芯のBF型。B / B3 / C にも対応したマルチタイプが無難"></textarea>
+    <label class="chk"><input type="checkbox" id="fUrgent"><span>「必須」の赤いタグを付ける</span></label>
+    <div class="row"><button class="b sec" id="mvUp">↑ 上へ</button><button class="b sec" id="mvDn">↓ 下へ</button></div>
+    <div class="row"><button class="b sec" id="itemCancel">キャンセル</button><button class="b pri" id="itemSave">保存</button></div>
+    <button class="b dgr" id="itemDel" style="width:100%">この項目を削除</button>
+  </div>
+</div>
+
+<!-- group editor -->
+<div class="sheet" id="grpSheet">
+  <div class="card">
+    <h3 id="grpTitle">グループを編集</h3>
+    <label class="f" for="gName">見出し</label>
+    <input type="text" id="gName" placeholder="例：9/5〜9/6">
+    <label class="f" for="gDue">右上のラベル（空でも可）</label>
+    <input type="text" id="gDue" placeholder="例：出発直前">
+    <label class="f" for="gLvl">ラベルの色</label>
+    <select id="gLvl">
+      <option value="">ふつう（グレー）</option>
+      <option value="soon">注意（黄）</option>
+      <option value="now">急ぎ（赤）</option>
+    </select>
+    <div class="row"><button class="b sec" id="gUp">↑ 上へ</button><button class="b sec" id="gDn">↓ 下へ</button></div>
+    <div class="row"><button class="b sec" id="grpCancel">キャンセル</button><button class="b pri" id="grpSave">保存</button></div>
+    <button class="b dgr" id="grpDel" style="width:100%">このグループごと削除</button>
+  </div>
+</div>
+
+<script>
+/* ---------------- version ----------------
+   ファイルを更新したら APP_VERSION を上げる。
+   DEFAULTS のリストに項目を足したときは DEFAULT_REV も上げると、
+   利用者に「新しい項目を取り込む」ボタンが出る。 */
+var APP_VERSION = "1.3";
+var DEFAULT_REV = 1;
+
+/* ---------------- storage ---------------- */
+var mem={}, hasLS=false;
+try{ localStorage.setItem("__t","1"); localStorage.removeItem("__t"); hasLS=true; }catch(e){}
+function get(k,d){ if(!hasLS) return (k in mem)?mem[k]:d;
+  try{ var v=localStorage.getItem(k); return v===null?d:JSON.parse(v); }catch(e){ return d; } }
+function set(k,v){ if(!hasLS){ mem[k]=v; return; } try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+
+/* ---------------- defaults ---------------- */
+var DEFAULTS={
+todo:[
+ {gid:"t1",t:"今日〜9/2",due:"最優先",lvl:"now",items:[
+  {id:"esim",n:"eSIMを購入してインストール",s:"Airalo →「スタンダード」タブ → 30日 20GB ¥5300。Wi-Fi環境でインストールし、設定→モバイル通信でその回線はオフにしておく",urgent:1},
+  {id:"policy",n:"eSIMの有効化ポリシーを確認",s:"My eSIM →詳細→さらに表示→「有効化ポリシー」。「接続時に開始」なら今インストールしてOK。「インストール時に開始」なら出発直前まで待つ",urgent:1},
+  {id:"roam",n:"UQ回線のデータローミングをオフ",s:"設定 → モバイル通信 → 主回線 → データローミング。切り忘れると高額請求の原因",urgent:1},
+  {id:"plug",n:"変換プラグ(BF型)を用意",s:"3芯のBF型が主流。B / B3 / C型にも対応したマルチタイプが無難"},
+  {id:"volt",n:"充電器がAC100–240V対応か確認",s:"本体やACアダプタの刻印を見る。100V専用なら変圧器が必要"},
+  {id:"batt",n:"モバイルバッテリーの容量を確認",s:"100Wh(27,027mAh)以下なら機内持ち込み可。預け入れは不可"}
+ ]},
+ {gid:"t2",t:"9/3〜9/5",due:"今週中",lvl:"soon",items:[
+  {id:"sheet",n:"自己評価シートに目標・課題を5つ以上書く",s:"具体的であるほどよい。研修中は毎晩振り返って自己点検する"},
+  {id:"intro",n:"自己紹介の準備",s:"学校・部活動の様子、制服の写真、趣味など。歓迎セレモニーで使う"},
+  {id:"neta",n:"交流のネタを用意",s:"日本の文化や習慣を伝える画像・小道具、簡単なお土産があるとよい"},
+  {id:"tabireg",n:"外務省「たびレジ」に登録",s:"anzen.mofa.go.jp。旅先の安全情報が届き、事故時の支援も早くなる"},
+  {id:"med",n:"常用薬・日用品を揃える",s:"胃腸薬、風邪薬、頭痛薬、酔い止め、解熱剤、虫よけ、日焼け止め、目薬"},
+  {id:"cash",n:"現金とデビットカードを準備",s:"両替は空港や都会の両替所で。ナイトマーケットはカード不可の店が多い"}
+ ]},
+ {gid:"t3",t:"9/5〜9/6",due:"出発直前",lvl:"soon",items:[
+  {id:"mdac",n:"MDAC（マレーシア電子入国カード）を登録",s:"9/6(土)から登録可能（到着日を含む3日前から）。便名は NH885、到着日は 9/8。公式 imigresen-online.imi.gov.my から。無料でカード情報の入力は不要 — 費用を求めるサイトは偽物",urgent:1},
+  {id:"mdacpdf",n:"MDACの控えをオフラインで保存",s:"完了メールのPIN番号とPDFを保存し、スクリーンショットも撮っておく。到着時は機内モードで通信できない",urgent:1},
+  {id:"copy",n:"パスポート写真ページのコピーを2枚",s:"紛失時に有効。パスポートとは別々の場所に保管する"},
+  {id:"weigh",n:"スーツケースの重量を測る",s:"23kg以下、3辺合計158cm以内。コインランドリーがあるので全日数分の服は不要"},
+  {id:"liquid",n:"液体物を100ml以下にまとめる",s:"1Lまでの透明ジップ袋1つに収める。それ以外は預け入れへ"},
+  {id:"line",n:"LINEグループに入っているか確認",s:"現地の連絡は基本LINE"},
+  {id:"ubuntu",n:"Ubuntu の依存を先に落としておく",s:"cargo fetch / apt full-upgrade / docker pull。Wi-Fiを従量制課金接続に設定し、snapの自動更新を止める"},
+  {id:"game",n:"原神を最新版に更新",s:"現地で数GBの更新を食らわないように。iOSのApp Store自動アップデートもオフに"},
+  {id:"clock",n:"時計の時差設定を確認",s:"マレーシアは−1時間。時差を間違えると全員に迷惑がかかる"}
+ ]},
+ {gid:"t4",t:"9/7 出発日",due:"当日",lvl:"now",items:[
+  {id:"pass",n:"パスポート",s:"これだけは絶対に忘れない。有効期間6か月以上、未使用査証欄が見開き2ページ以上",urgent:1},
+  {id:"ins",n:"海外旅行傷害保険の証書",s:"必ず携行。提携する現地医療機関も控えておく"},
+  {id:"meet",n:"15:15 米子鬼太郎空港に集合",s:"1階 セブンイレブン前 ゲゲゲの鬼太郎スポット"}
+ ]},
+ {gid:"t5",t:"提出物・手続き",due:"済んでいれば✓",lvl:"",items:[
+  {id:"hoken",n:"海外旅行傷害保険の申込書を教務係へ提出",s:"全員加入が必須"},
+  {id:"jtb",n:"JTBへの支払 179,240円",s:"往復航空券（燃油サーチャージ・空港税込み）"},
+  {id:"umpsa",n:"パハン大学へ 720USD を振込",s:"7/31期限。現地移動費・食費・滞在費・研修プログラム費用"},
+  {id:"tshirt",n:"Tシャツサイズ調査の記入",s:""}
+ ]},
+ {gid:"t6",t:"帰国後",due:"9/22まで",lvl:"",items:[
+  {id:"submit",n:"自己評価シートを提出",s:"帰国後1週間以内。忘れないうちにやる"},
+  {id:"photo",n:"報告会用の写真・動画を整理",s:"3月の研修発表会で使う"},
+  {id:"contest",n:"高専祭フォトコンテスト用に1枚選ぶ",s:"1人1枚、渾身のものを出展"},
+  {id:"health",n:"体調をみる",s:"発熱・下痢があれば感染症専門病院へ。マレーシア渡航を必ず伝える"}
+ ]}
+],
+pack:[
+ {gid:"p1",t:"絶対に忘れない",due:"",lvl:"now",items:[
+  {id:"k1",n:"パスポート",s:"無いと入国できず強制送還"},
+  {id:"k2",n:"パスポートのコピー2枚",s:"本体とは別に保管"},
+  {id:"k3",n:"海外旅行傷害保険 証書",s:""},
+  {id:"k4",n:"現金・デビットカード・クレジットカード",s:""},
+  {id:"k5",n:"自己評価シート",s:""},
+  {id:"k6",n:"学生証",s:""}
+ ]},
+ {gid:"p2",t:"手荷物に入れる",due:"預けない",lvl:"soon",items:[
+  {id:"h1",n:"パソコン",s:"高価品・壊れ物は預けない"},
+  {id:"h2",n:"モバイルバッテリー",s:"預け入れ不可。発火事案が増加中"},
+  {id:"h3",n:"カメラ",s:""},
+  {id:"h4",n:"常用薬",s:""},
+  {id:"h5",n:"薄手の上着・カーディガン",s:"機内は気温が下がり湿度も低い"},
+  {id:"h6",n:"液体物のジップ袋",s:"100ml以下の容器のみ、1L袋1つ"},
+  {id:"h7",n:"筆記用具",s:""}
+ ]},
+ {gid:"p3",t:"預け入れ荷物",due:"",lvl:"",items:[
+  {id:"s1",n:"着替え",s:"高温多湿。楽に動ける服装。数日に1回コインランドリーがあるので全日数分は不要"},
+  {id:"s2",n:"洗面用具・石鹸・シャンプー",s:"現地のものが体質に合わない場合に備えて"},
+  {id:"s3",n:"折り畳み傘 / レインコート",s:"スコールは必ずある"},
+  {id:"s4",n:"日焼け止め・サングラス",s:""},
+  {id:"s5",n:"タオル・ハンカチ・ティッシュ",s:""},
+  {id:"s6",n:"ウエットティッシュ",s:"食事のときに多用する"},
+  {id:"s7",n:"虫よけ",s:"デング熱対策"},
+  {id:"s8",n:"動きやすい靴",s:""},
+  {id:"s9",n:"洗濯ネット",s:"複数人でまとめて洗うので"},
+  {id:"s10",n:"ハサミ・爪切りなど刃物",s:"機内持ち込み不可なので必ず預ける"},
+  {id:"s11",n:"変換プラグ(BF型)",s:""}
+ ]},
+ {gid:"p4",t:"あると便利",due:"任意",lvl:"",items:[
+  {id:"o1",n:"簡易スリッパ",s:"機内で足がむくむのを防ぐ"},
+  {id:"o2",n:"ネックピロー",s:"機内泊の睡眠が改善する"},
+  {id:"o3",n:"エコバッグ",s:""},
+  {id:"o4",n:"自己紹介用の写真・小道具",s:""},
+  {id:"o5",n:"簡単なお土産",s:"バディや交流先の学生に"}
+ ]}
+]};
+
+var DAYS=[
+ {date:"2026-09-07",tz:"Asia/Tokyo",d:"9/7 (月)",t:"Day 1 — 日本を発つ",p:"米子 → 羽田 → 機内泊",r:[["15:15","米子鬼太郎空港に集合（1階 セブンイレブン前）"],["17:15","米子空港発 NH388"],["18:50","羽田空港着"],["23:30","羽田空港発 NH885"]],stay:"機内泊"},
+ {date:"2026-09-08",tz:"Asia/Kuala_Lumpur",d:"9/8 (火)",t:"Day 2 — クアラルンプール到着・クアンタンへ",p:"KL → クアンタン",r:[["6:00","クアラルンプール国際空港着"],["6:00","入国審査、荷物受取、UMPSA関係者の出迎え"],["7:00","空港付近で朝食"],["8:00","UMPSAバスでクアンタンへ移動（4時間）"],["12:00","クアンタンにて昼食"],["13:00","ホテルチェックイン"],["14:00","休憩・自由時間"],["17:00","UMPSA学生バディと顔合わせ、プログラム説明"],["19:00","ウェルカムディナー"]],stay:"Megaview Hotel, Kuantan"},
+ {date:"2026-09-09",tz:"Asia/Kuala_Lumpur",d:"9/9 (水)",t:"Day 3 — UMPSAキャンパスプログラム",p:"UMPSA（パハン大学）",r:[["7:00","ホテルにて朝食"],["8:00","UMPSAへ移動"],["9:00","開会式・歓迎式典（挨拶、代表団紹介、集合写真）"],["10:00","キャンパス・研究施設見学"],["12:00","UMPSAにて昼食"],["13:00","学術交流・実習グループ活動"],["15:00","バティック絵付けワークショップ"],["16:30","学生バディとの異文化交流セッション"],["17:30","テロック・チェンパダック訪問"],["19:00","夕食"]],stay:"Megaview Hotel, Kuantan"},
+ {date:"2026-09-10",tz:"Asia/Kuala_Lumpur",d:"9/10 (木)",t:"Day 4 — スンガイ・レンビン遠足",p:"山間部・電波が弱い可能性あり",r:[["5:00","早朝朝食・出発準備"],["5:30","スンガイ・レンビンへ移動"],["6:30","安全説明、装備配布"],["7:00","四輪駆動車＋トレッキングでレインボー滝へ"],["11:30","スンガイ・レンビンの町へ戻る"],["12:30","昼食"],["13:30","史跡ガイドウォーク"],["15:30","クアンタンへ戻る"],["19:00","夕食"]],stay:"Megaview Hotel, Kuantan ／ ※滝への行程は天候・河川状況により変更あり"},
+ {date:"2026-09-11",tz:"Asia/Kuala_Lumpur",d:"9/11 (金)",t:"Day 5 — 現地校交流・クアンタン市街",p:"現地校 → 市街地",r:[["7:00","ホテルにて朝食"],["8:00","現地校へ移動"],["9:00","マレーシアの学生と教育交流（校内見学、授業参観、文化発表）"],["12:00","昼食"],["13:00","クアンタン市街地へ移動"],["14:00","イーストコーストモール等で買い物"],["16:00","クアンタン・アートストリート散策"],["17:00","クアンタン・リバーフロント見学"],["19:00","夕食"]],stay:"Megaview Hotel, Kuantan"},
+ {date:"2026-09-12",tz:"Asia/Kuala_Lumpur",d:"9/12 (土)",t:"Day 6 — クアラルンプールへ移動",p:"クアンタン → KL",r:[["7:00","ホテルにて朝食"],["8:00","チェックアウト、荷物積み込み"],["9:00","クアラルンプールへ移動（4時間）"],["13:00","クアラルンプールにて昼食"],["14:00","ホテルチェックイン"],["15:00","KLCC・ペトロナスツインタワー外観見学"],["17:00","ブキッ・ビンタン散策"],["19:00","夕食"],["20:30","ブキッ・ビンタン夜の散策"]],stay:"Starus Hotel Bukit Bintang, KL"},
+ {date:"2026-09-13",tz:"Asia/Kuala_Lumpur",d:"9/13 (日)",t:"Day 7 — KL史跡めぐり・閉会式",p:"クアラルンプール",r:[["7:00","ホテルにて朝食"],["8:00","ダタラン・ムルデカへ移動"],["9:00","史跡ガイドツアー（スルタン・アブドゥル・サマド・ビルほか）"],["10:30","セントラルマーケット見学"],["12:00","昼食"],["13:00","プタリン・ストリートおよび周辺地区"],["14:30","お土産購入・自由散策（引率付き）"],["16:00","ホテルへ戻り閉会式準備"],["17:00","振り返り、修了証授与、閉会式"],["19:00","送別ディナー"],["21:00","帰国最終説明会"]],stay:"Starus Hotel Bukit Bintang, KL ／ お土産はセントラルマーケットがベスト"},
+ {date:"2026-09-14",tz:"Asia/Kuala_Lumpur",d:"9/14 (月)",t:"Day 8 — 帰国",p:"KL → 羽田",r:[["7:00","ホテルにて朝食"],["8:00","チェックアウト、荷物準備"],["9:00","クアラルンプール国際空港へ移動"],["10:00","チェックイン、預け荷物、出国審査"],["14:15","クアラルンプール空港発 NH886"],["22:15","羽田空港着"]],stay:"羽田エクセルホテル東急"},
+ {date:"2026-09-15",tz:"Asia/Tokyo",d:"9/15 (火)",t:"Day 9 — 帰宅",p:"羽田 → 米子",r:[["9:10","羽田空港発 NH383"],["10:30","米子空港着（1階 到着ロビーで解散）"]],stay:""}
+];
+
+/* ---------------- state ---------------- */
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+var data  = get("prep-data", null) || clone(DEFAULTS);
+var checks= get("prep-checks", {});
+var editing=false;
+
+function saveData(){ set("prep-data", data); }
+function saveChecks(){ set("prep-checks", checks); }
+function uid(){ return "u"+Date.now().toString(36)+Math.floor(Math.random()*900+100); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+/* ---------------- render ---------------- */
+function renderList(key){
+  var el=document.getElementById("p-"+key), groups=data[key]||[], h="";
+  h+='<div class="hint">編集モードです。鉛筆マークで項目を直せます。見出しをタップするとグループを編集できます。</div>';
+  groups.forEach(function(g){
+    h+='<div class="group" data-g="'+esc(g.gid)+'">';
+    h+='<div class="ghead" data-gedit="'+esc(g.gid)+'" data-k="'+key+'"><h2>'+esc(g.t)+'</h2>';
+    if(g.due) h+='<span class="due '+esc(g.lvl||"")+'">'+esc(g.due)+'</span>';
+    h+='<span class="tally"></span></div>';
+    (g.items||[]).forEach(function(it){
+      h+='<div class="item">';
+      h+='<input type="checkbox" data-id="'+esc(it.id)+'"'+(checks[it.id]?" checked":"")+'>';
+      h+='<span class="txt"><b>'+esc(it.n)+(it.urgent?'<span class="flag">必須</span>':'')+'</b>';
+      if(it.s) h+='<small>'+esc(it.s)+'</small>';
+      h+='</span>';
+      h+='<span class="pen" data-edit="'+esc(it.id)+'" data-g="'+esc(g.gid)+'" data-k="'+key+'">✎</span>';
+      h+='</div>';
+    });
+    h+='<div class="addrow"><button class="addbtn" data-add="'+esc(g.gid)+'" data-k="'+key+'">＋ 項目を追加</button></div>';
+    h+='</div>';
+  });
+  h+='<div class="addgroup"><button class="addbtn" data-newgroup="'+key+'">＋ グループを追加</button></div>';
+  el.innerHTML=h;
+}
+
+function renderDays(){
+  var h="", ti=todayIndex();
+  DAYS.forEach(function(d,idx){
+    h+='<div class="day'+(ti===idx?' today':'')+'"><h2>'+esc(d.d)+'　'+esc(d.t)+'</h2><p class="place">'+esc(d.p)+'</p><ol>';
+    d.r.forEach(function(r){ h+='<li><time>'+esc(r[0])+'</time><span>'+esc(r[1])+'</span></li>'; });
+    h+='</ol>';
+    if(d.stay) h+='<p class="stay">'+esc(d.stay)+'</p>';
+    h+='</div>';
+  });
+  document.getElementById("p-days").innerHTML=h;
+}
+
+function updateTallies(){
+  document.querySelectorAll(".group").forEach(function(g){
+    var all=g.querySelectorAll('input[type=checkbox]').length;
+    var dn=g.querySelectorAll('input[type=checkbox]:checked').length;
+    var t=g.querySelector(".tally"); if(t) t.textContent=dn+"/"+all;
+  });
+  var tot=0, done=0;
+  ["todo","pack"].forEach(function(k){
+    (data[k]||[]).forEach(function(g){ (g.items||[]).forEach(function(it){ tot++; if(checks[it.id]) done++; }); });
+  });
+  var pct=tot?Math.round(done/tot*100):0;
+  document.getElementById("progBar").style.width=pct+"%";
+  document.getElementById("progText").textContent="準備 "+done+" / "+tot+"　("+pct+"%)";
+}
+
+function redraw(){ renderList("todo"); renderList("pack"); updateTallies(); }
+
+function partsIn(tz){
+  var f=new Intl.DateTimeFormat("en-CA",{timeZone:tz,year:"numeric",month:"2-digit",day:"2-digit",
+        hour:"2-digit",minute:"2-digit",hour12:false});
+  var o={}; f.formatToParts(new Date()).forEach(function(x){ o[x.type]=x.value; });
+  return {date:o.year+"-"+o.month+"-"+o.day, hm:o.hour+":"+o.minute};
+}
+function hm2min(t){ var a=t.split(":"); return (+a[0])*60+(+a[1]); }
+
+function todayIndex(){
+  for(var i=0;i<DAYS.length;i++){ if(partsIn(DAYS[i].tz).date===DAYS[i].date) return i; }
+  return -1;
+}
+function phase(){
+  var jp=partsIn("Asia/Tokyo");
+  if(jp.date < "2026-09-07") return "before";
+  if(jp.date > "2026-09-15") return "after";
+  if(jp.date==="2026-09-07" && hm2min(jp.hm) < hm2min("15:15")) return "before";
+  return "during";
+}
+
+function renderHero(){
+  var el=document.getElementById("days"), lb=document.getElementById("daysLabel");
+  var meet=document.getElementById("meet"), clock=document.getElementById("clock");
+  var kick=document.getElementById("kicker");
+  var ph=phase();
+
+  if(ph==="before"){
+    kick.textContent="令和8年度 米子高専 マレーシア研修旅行";
+    var dep=new Date(2026,8,7,15,15,0);
+    var d=Math.ceil((dep-new Date())/86400000);
+    el.style.fontSize=""; 
+    if(d>1){ el.textContent=d; lb.textContent="日後に集合"; }
+    else{ el.textContent="まもなく"; el.style.fontSize="40px"; lb.textContent="9/7 15:15 集合"; }
+    meet.innerHTML="集合 <strong>9\/7(月) 15:15</strong> 米子鬼太郎空港 1階 セブンイレブン前<br>NH388 17:15発 → 羽田 → NH885 23:30発（機内泊）";
+    clock.innerHTML="";
+    return;
+  }
+
+  if(ph==="after"){
+    kick.textContent="令和8年度 米子高専 マレーシア研修旅行";
+    el.textContent="おかえりなさい"; el.style.fontSize="26px"; lb.textContent="";
+    var left=0;
+    (data.todo||[]).forEach(function(g){ if(g.gid==="t6") g.items.forEach(function(it){ if(!checks[it.id]) left++; }); });
+    meet.innerHTML = left ? ("帰国後にやることが <strong>"+left+"件</strong> 残っています。<br>自己評価シートの提出は帰国後1週間以内です。")
+                          : "帰国後にやることは全部終わっています。おつかれさまでした。";
+    clock.innerHTML="";
+    return;
+  }
+
+  /* during */
+  var i=todayIndex();
+  var jp=partsIn("Asia/Tokyo"), my=partsIn("Asia/Kuala_Lumpur");
+  clock.innerHTML='<i>現地 <b>'+my.hm+'</b></i><i>日本 <b>'+jp.hm+'</b></i>';
+
+  if(i<0){ el.textContent="研修中"; el.style.fontSize="30px"; lb.textContent=""; meet.textContent=""; return; }
+  var day=DAYS[i];
+  kick.textContent=day.t.replace(/^Day \d+ — /,"");
+  el.textContent="Day "+(i+1); el.style.fontSize="44px"; lb.textContent="/ 9";
+
+  var now=hm2min(partsIn(day.tz).hm), nxt=null;
+  for(var k=0;k<day.r.length;k++){ if(hm2min(day.r[k][0])>=now){ nxt=day.r[k]; break; } }
+  if(nxt) meet.innerHTML='次の予定　<strong>'+esc(nxt[0])+'</strong>　'+esc(nxt[1]);
+  else meet.innerHTML='今日の予定は終わりです。'+(day.stay?'<br>'+esc(day.stay.split(" ／ ")[0]):'');
+}
+
+/* ---------------- helpers ---------------- */
+function findGroup(key,gid){ var a=data[key]||[]; for(var i=0;i<a.length;i++) if(a[i].gid===gid) return {g:a[i],i:i,arr:a}; return null; }
+function findItem(key,gid,id){ var r=findGroup(key,gid); if(!r) return null;
+  for(var i=0;i<r.g.items.length;i++) if(r.g.items[i].id===id) return {it:r.g.items[i],i:i,g:r.g}; return null; }
+
+/* ---------------- item sheet ---------------- */
+var iSheet=document.getElementById("itemSheet"), ctx={};
+function openItem(key,gid,id){
+  ctx={key:key,gid:gid,id:id,isNew:!id};
+  var n="",s="",u=false;
+  if(id){ var f=findItem(key,gid,id); if(!f) return; n=f.it.n; s=f.it.s||""; u=!!f.it.urgent; }
+  document.getElementById("itemTitle").textContent=id?"項目を編集":"項目を追加";
+  document.getElementById("fName").value=n;
+  document.getElementById("fNote").value=s;
+  document.getElementById("fUrgent").checked=u;
+  document.getElementById("itemDel").style.display=id?"block":"none";
+  document.getElementById("mvUp").style.display=id?"block":"none";
+  document.getElementById("mvDn").style.display=id?"block":"none";
+  iSheet.classList.add("on");
+  if(!id) setTimeout(function(){ document.getElementById("fName").focus(); },60);
+}
+function closeItem(){ iSheet.classList.remove("on"); }
+
+document.getElementById("itemCancel").onclick=closeItem;
+iSheet.onclick=function(e){ if(e.target===iSheet) closeItem(); };
+
+document.getElementById("itemSave").onclick=function(){
+  var n=document.getElementById("fName").value.trim();
+  if(!n){ alert("項目名を入れてください"); return; }
+  var s=document.getElementById("fNote").value.trim();
+  var u=document.getElementById("fUrgent").checked?1:0;
+  if(ctx.isNew){
+    var r=findGroup(ctx.key,ctx.gid); if(!r) return;
+    r.g.items.push({id:uid(),n:n,s:s,urgent:u});
+  }else{
+    var f=findItem(ctx.key,ctx.gid,ctx.id); if(!f) return;
+    f.it.n=n; f.it.s=s; f.it.urgent=u;
+  }
+  saveData(); redraw(); closeItem();
+};
+
+document.getElementById("itemDel").onclick=function(){
+  if(!confirm("この項目を削除します。よろしいですか？")) return;
+  var f=findItem(ctx.key,ctx.gid,ctx.id); if(!f) return;
+  f.g.items.splice(f.i,1);
+  delete checks[ctx.id];
+  saveData(); saveChecks(); redraw(); closeItem();
+};
+function moveItem(dir){
+  var f=findItem(ctx.key,ctx.gid,ctx.id); if(!f) return;
+  var j=f.i+dir; if(j<0||j>=f.g.items.length) return;
+  var tmp=f.g.items[f.i]; f.g.items[f.i]=f.g.items[j]; f.g.items[j]=tmp;
+  saveData(); redraw(); closeItem();
+}
+document.getElementById("mvUp").onclick=function(){ moveItem(-1); };
+document.getElementById("mvDn").onclick=function(){ moveItem(1); };
+
+/* ---------------- group sheet ---------------- */
+var gSheet=document.getElementById("grpSheet"), gctx={};
+function openGroup(key,gid){
+  gctx={key:key,gid:gid,isNew:!gid};
+  var t="",due="",lvl="";
+  if(gid){ var r=findGroup(key,gid); if(!r) return; t=r.g.t; due=r.g.due||""; lvl=r.g.lvl||""; }
+  document.getElementById("grpTitle").textContent=gid?"グループを編集":"グループを追加";
+  document.getElementById("gName").value=t;
+  document.getElementById("gDue").value=due;
+  document.getElementById("gLvl").value=lvl;
+  document.getElementById("grpDel").style.display=gid?"block":"none";
+  document.getElementById("gUp").style.display=gid?"block":"none";
+  document.getElementById("gDn").style.display=gid?"block":"none";
+  gSheet.classList.add("on");
+  if(!gid) setTimeout(function(){ document.getElementById("gName").focus(); },60);
+}
+function closeGroup(){ gSheet.classList.remove("on"); }
+document.getElementById("grpCancel").onclick=closeGroup;
+gSheet.onclick=function(e){ if(e.target===gSheet) closeGroup(); };
+
+document.getElementById("grpSave").onclick=function(){
+  var t=document.getElementById("gName").value.trim();
+  if(!t){ alert("見出しを入れてください"); return; }
+  var due=document.getElementById("gDue").value.trim();
+  var lvl=document.getElementById("gLvl").value;
+  if(gctx.isNew){ (data[gctx.key]=data[gctx.key]||[]).push({gid:uid(),t:t,due:due,lvl:lvl,items:[]}); }
+  else{ var r=findGroup(gctx.key,gctx.gid); if(!r) return; r.g.t=t; r.g.due=due; r.g.lvl=lvl; }
+  saveData(); redraw(); closeGroup();
+};
+document.getElementById("grpDel").onclick=function(){
+  var r=findGroup(gctx.key,gctx.gid); if(!r) return;
+  if(!confirm("「"+r.g.t+"」を中の項目ごと削除します。よろしいですか？")) return;
+  r.g.items.forEach(function(it){ delete checks[it.id]; });
+  r.arr.splice(r.i,1);
+  saveData(); saveChecks(); redraw(); closeGroup();
+};
+function moveGroup(dir){
+  var r=findGroup(gctx.key,gctx.gid); if(!r) return;
+  var j=r.i+dir; if(j<0||j>=r.arr.length) return;
+  var tmp=r.arr[r.i]; r.arr[r.i]=r.arr[j]; r.arr[j]=tmp;
+  saveData(); redraw(); closeGroup();
+}
+document.getElementById("gUp").onclick=function(){ moveGroup(-1); };
+document.getElementById("gDn").onclick=function(){ moveGroup(1); };
+
+/* ---------------- events ---------------- */
+document.addEventListener("change",function(e){
+  var b=e.target;
+  if(b.type==="checkbox"&&b.dataset.id){
+    if(b.checked) checks[b.dataset.id]=1; else delete checks[b.dataset.id];
+    saveChecks(); updateTallies();
+  }
+});
+
+document.addEventListener("click",function(e){
+  var t=e.target;
+  var pen=t.closest?t.closest(".pen"):null;
+  if(pen){ openItem(pen.dataset.k,pen.dataset.g,pen.dataset.edit); return; }
+  var add=t.closest?t.closest("[data-add]"):null;
+  if(add){ openItem(add.dataset.k,add.dataset.add,null); return; }
+  var ng=t.closest?t.closest("[data-newgroup]"):null;
+  if(ng){ openGroup(ng.dataset.newgroup,null); return; }
+  if(editing){
+    var gh=t.closest?t.closest("[data-gedit]"):null;
+    if(gh){ openGroup(gh.dataset.k,gh.dataset.gedit); return; }
+    return;
+  }
+  var row=t.closest?t.closest(".item"):null;
+  if(row&&t.type!=="checkbox"){
+    var cb=row.querySelector('input[type=checkbox]');
+    if(cb){ cb.checked=!cb.checked; cb.dispatchEvent(new Event("change",{bubbles:true})); }
+  }
+});
+
+document.getElementById("editBtn").onclick=function(){
+  editing=!editing;
+  document.body.classList.toggle("editing",editing);
+  this.textContent=editing?"完了":"編集";
+};
+
+document.querySelectorAll('nav button').forEach(function(btn){
+  btn.addEventListener("click",function(){
+    document.querySelectorAll('nav button').forEach(function(b){ b.setAttribute("aria-selected", b===btn?"true":"false"); });
+    document.querySelectorAll('.panel').forEach(function(p){ p.hidden = p.id!=="p-"+btn.dataset.p; });
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+/* memo */
+var memo=document.getElementById("memo"), memoSaved=document.getElementById("memoSaved"), mt;
+memo.value=get("prep-memo","");
+memo.addEventListener("input",function(){
+  clearTimeout(mt);
+  mt=setTimeout(function(){
+    set("prep-memo",memo.value);
+    memoSaved.textContent="保存しました";
+    setTimeout(function(){ memoSaved.textContent=""; },1600);
+  },400);
+});
+
+/* settings */
+document.getElementById("clearChecks").onclick=function(){
+  if(!confirm("すべてのチェックを外します。よろしいですか？")) return;
+  checks={}; saveChecks(); redraw();
+};
+document.getElementById("restoreDefaults").onclick=function(){
+  if(!confirm("追加・編集した項目をすべて破棄して初期状態に戻します。よろしいですか？")) return;
+  data=clone(DEFAULTS); saveData(); redraw();
+};
+document.getElementById("dumpJson").onclick=function(){
+  document.getElementById("json").value=JSON.stringify(data,null,1);
+  document.getElementById("jsonMsg").textContent="";
+};
+document.getElementById("loadJson").onclick=function(){
+  var msg=document.getElementById("jsonMsg");
+  try{
+    var o=JSON.parse(document.getElementById("json").value);
+    if(!o||!o.todo||!o.pack) throw new Error("todo と pack が必要です");
+    data=o; saveData(); redraw();
+    msg.style.color="var(--green)"; msg.textContent="読み込みました";
+  }catch(err){
+    msg.style.color="var(--red)"; msg.textContent="読み込めません："+err.message;
+  }
+};
+
+/* ---------------- offline indicator ---------------- */
+function showOffline(){
+  var el=document.getElementById("offline");
+  if(!el) return;
+  el.textContent = navigator.onLine ? "" : "オフラインで動作中";
+  el.style.color = "var(--gold-deep)";
+}
+window.addEventListener("online",showOffline);
+window.addEventListener("offline",showOffline);
+
+/* ---------------- new default items ---------------- */
+function pendingNewItems(){
+  if(get("prep-rev",0)>=DEFAULT_REV) return false;
+  if(!get("prep-data",null)) return false;   /* 未編集なら常に最新が出るので不要 */
+  return true;
+}
+function mergeDefaults(){
+  var added=0;
+  ["todo","pack"].forEach(function(key){
+    (DEFAULTS[key]||[]).forEach(function(dg){
+      var r=findGroup(key,dg.gid);
+      if(!r){ data[key].push(clone(dg)); added+=dg.items.length; return; }
+      dg.items.forEach(function(di){
+        var has=r.g.items.some(function(x){ return x.id===di.id; });
+        if(!has){ r.g.items.push(clone(di)); added++; }
+      });
+    });
+  });
+  set("prep-rev",DEFAULT_REV);
+  saveData(); redraw(); refreshVersionUI();
+  alert(added?(added+"件の項目を追加しました"):"追加する項目はありませんでした");
+}
+function refreshVersionUI(){
+  document.getElementById("vNow").textContent=APP_VERSION;
+  document.getElementById("newItems").style.display=pendingNewItems()?"block":"none";
+}
+document.getElementById("mergeBtn").onclick=mergeDefaults;
+
+/* ---------------- service worker / update ----------------
+   通信は「更新を確認する」を押したときだけ。
+   起動時に register() を呼び直すと通信が走るので、導入済みなら呼ばない。 */
+var reg=null, banner=document.getElementById("upd");
+
+function offerUpdate(w){
+  if(!w) return;
+  banner.classList.add("on");
+  document.getElementById("updBtn").onclick=function(){
+    banner.classList.remove("on");
+    w.postMessage({type:"SKIP_WAITING"});
+  };
+}
+function bindReg(r){
+  if(!r) return;
+  reg=r;
+  if(r.waiting) offerUpdate(r.waiting);          /* 前回落とした版が控えている */
+  r.addEventListener("updatefound",function(){
+    var w=r.installing; if(!w) return;
+    w.addEventListener("statechange",function(){
+      if(w.state==="installed" && navigator.serviceWorker.controller) offerUpdate(w);
+    });
+  });
+  refreshVersionUI();
+}
+function showLastCheck(){
+  var t=get("prep-lastcheck",0), el=document.getElementById("lastChk");
+  if(!el) return;
+  el.textContent = t ? ("最後に確認したのは "+new Date(t).toLocaleString("ja-JP")) : "まだ一度も確認していません";
+}
+function markChecked(){ set("prep-lastcheck",Date.now()); showLastCheck(); }
+
+if("serviceWorker" in navigator){
+  var reloading=false;
+  navigator.serviceWorker.addEventListener("controllerchange",function(){
+    if(reloading) return; reloading=true; location.reload();
+  });
+  window.addEventListener("load",function(){
+    if(navigator.serviceWorker.controller){
+      /* 導入済み。getRegistration は通信しない。 */
+      navigator.serviceWorker.getRegistration().then(bindReg).catch(function(){});
+    }else{
+      /* 未導入。ここは必ずネット環境なので、設定タブに案内を出す。 */
+      document.getElementById("installBox").style.display="block";
+    }
+  });
+}
+
+document.getElementById("installBtn").onclick=function(){
+  var m=document.getElementById("updMsg");
+  if(!navigator.onLine){ m.style.color="var(--red)"; m.textContent="ネットにつないでから押してください"; return; }
+  m.style.color="var(--muted)"; m.textContent="保存しています…";
+  navigator.serviceWorker.register("./sw.js").then(function(r){
+    bindReg(r); markChecked();
+    document.getElementById("installBox").style.display="none";
+    m.style.color="var(--green)"; m.textContent="保存しました。これでオフラインでも使えます。";
+  }).catch(function(){
+    m.style.color="var(--red)"; m.textContent="保存できませんでした。https のURLから開いているか確認してください。";
+  });
+};
+
+document.getElementById("checkUpd").onclick=function(){
+  var m=document.getElementById("updMsg");
+  if(!navigator.onLine){ m.style.color="var(--muted)"; m.textContent="オフラインです。このまま使えます。"; return; }
+  if(!reg){ m.style.color="var(--muted)"; m.textContent="ホーム画面のアイコンから開いてください。"; return; }
+  m.style.color="var(--muted)"; m.textContent="確認しています…";
+  reg.update().then(function(){
+    markChecked();
+    setTimeout(function(){
+      if(reg.waiting||reg.installing){ m.style.color="var(--gold-deep)"; m.textContent="新しいバージョンがあります。下のバナーから更新してください。"; }
+      else{ m.style.color="var(--green)"; m.textContent="最新の状態です"; }
+    },1500);
+  }).catch(function(){
+    m.style.color="var(--red)"; m.textContent="確認できませんでした";
+  });
+};
+
+/* init */
+redraw(); renderDays(); renderHero(); showOffline(); refreshVersionUI(); showLastCheck();
+setInterval(renderHero, 30000);
+document.addEventListener("visibilitychange",function(){ if(!document.hidden){ renderHero(); renderDays(); } });
+if(!get("prep-data",null)) set("prep-rev",DEFAULT_REV);
+</script>
+</body>
+</html>
