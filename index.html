@@ -41,6 +41,46 @@ body{
 .clock{margin-top:11px;display:flex;gap:16px;font-size:13px;color:#9FB0C9;font-variant-numeric:tabular-nums;}
 .clock b{color:#fff;font-weight:700;font-size:15px;}
 .clock i{font-style:normal;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{appearance:none;border:1px solid var(--line);background:#FAFBFC;color:var(--ink-soft);
+  font:inherit;font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:20px;cursor:pointer;}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff;}
+.sq{display:flex;gap:2px;align-items:flex-end;height:52px;margin:10px 0 4px;}
+.sq i{flex:1;background:#E7EAF0;border-radius:2px 2px 0 0;min-height:2px;display:block;}
+.sqx{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+.aq{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;margin-bottom:10px;}
+.aq b{font-variant-numeric:tabular-nums;}
+.aq i{font-style:normal;color:var(--muted);font-size:13px;}
+.fitem{display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid #F0F2F6;}
+.fitem:first-of-type{border-top:0;}
+.fitem img,.fitem video{width:62px;height:62px;object-fit:cover;border-radius:9px;flex:0 0 auto;background:#EDF0F5;}
+.fico{width:62px;height:62px;border-radius:9px;background:#EDF0F5;color:var(--ink-soft);flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.fmeta{flex:1;min-width:0;}
+.fmeta b{display:block;font-size:14px;font-weight:600;word-break:break-all;line-height:1.4;}
+.fmeta small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;}
+.fbtn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink-soft);font:inherit;
+  font-size:12.5px;padding:6px 11px;border-radius:16px;cursor:pointer;margin-right:6px;}
+.fbtn.del{color:var(--red);border-color:#F2D5D5;}
+.mefield{padding:12px 0;border-top:1px solid #F0F2F6;}
+.mefield:first-of-type{border-top:0;}
+.mefield label{display:block;font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:4px;}
+.mefield textarea,.mefield input{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
+  font:inherit;font-size:15px;background:#FCFDFE;color:var(--ink);}
+.mefield textarea{min-height:76px;resize:vertical;line-height:1.6;}
+.mefield .row2{display:flex;gap:8px;margin-top:7px;}
+.rate{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.rate b{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;}
+.rate span{font-size:14px;color:var(--muted);}
+.conv{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;font-size:14.5px;font-variant-numeric:tabular-nums;}
+.conv i{font-style:normal;color:var(--muted);}
+.wx{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #F0F2F6;font-size:14px;}
+.wx:first-of-type{border-top:0;}
+.wx .d{flex:0 0 52px;font-weight:600;font-variant-numeric:tabular-nums;font-size:13px;}
+.wx .s{flex:1;color:var(--ink-soft);font-size:13.5px;}
+.wx .t{flex:0 0 74px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+.wx .t em{font-style:normal;color:var(--muted);font-weight:400;}
+.wx .p{flex:0 0 42px;text-align:right;font-size:13px;color:var(--gold-deep);font-variant-numeric:tabular-nums;}
 .day.today{box-shadow:0 0 0 2.5px var(--gold);}
 .day.today h2::before{content:"今日　";color:var(--gold-deep);}
 #editBtn{
@@ -51,6 +91,46 @@ body{
 body.editing .clock{margin-top:11px;display:flex;gap:16px;font-size:13px;color:#9FB0C9;font-variant-numeric:tabular-nums;}
 .clock b{color:#fff;font-weight:700;font-size:15px;}
 .clock i{font-style:normal;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{appearance:none;border:1px solid var(--line);background:#FAFBFC;color:var(--ink-soft);
+  font:inherit;font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:20px;cursor:pointer;}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff;}
+.sq{display:flex;gap:2px;align-items:flex-end;height:52px;margin:10px 0 4px;}
+.sq i{flex:1;background:#E7EAF0;border-radius:2px 2px 0 0;min-height:2px;display:block;}
+.sqx{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+.aq{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;margin-bottom:10px;}
+.aq b{font-variant-numeric:tabular-nums;}
+.aq i{font-style:normal;color:var(--muted);font-size:13px;}
+.fitem{display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid #F0F2F6;}
+.fitem:first-of-type{border-top:0;}
+.fitem img,.fitem video{width:62px;height:62px;object-fit:cover;border-radius:9px;flex:0 0 auto;background:#EDF0F5;}
+.fico{width:62px;height:62px;border-radius:9px;background:#EDF0F5;color:var(--ink-soft);flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.fmeta{flex:1;min-width:0;}
+.fmeta b{display:block;font-size:14px;font-weight:600;word-break:break-all;line-height:1.4;}
+.fmeta small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;}
+.fbtn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink-soft);font:inherit;
+  font-size:12.5px;padding:6px 11px;border-radius:16px;cursor:pointer;margin-right:6px;}
+.fbtn.del{color:var(--red);border-color:#F2D5D5;}
+.mefield{padding:12px 0;border-top:1px solid #F0F2F6;}
+.mefield:first-of-type{border-top:0;}
+.mefield label{display:block;font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:4px;}
+.mefield textarea,.mefield input{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
+  font:inherit;font-size:15px;background:#FCFDFE;color:var(--ink);}
+.mefield textarea{min-height:76px;resize:vertical;line-height:1.6;}
+.mefield .row2{display:flex;gap:8px;margin-top:7px;}
+.rate{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.rate b{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;}
+.rate span{font-size:14px;color:var(--muted);}
+.conv{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;font-size:14.5px;font-variant-numeric:tabular-nums;}
+.conv i{font-style:normal;color:var(--muted);}
+.wx{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #F0F2F6;font-size:14px;}
+.wx:first-of-type{border-top:0;}
+.wx .d{flex:0 0 52px;font-weight:600;font-variant-numeric:tabular-nums;font-size:13px;}
+.wx .s{flex:1;color:var(--ink-soft);font-size:13.5px;}
+.wx .t{flex:0 0 74px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+.wx .t em{font-style:normal;color:var(--muted);font-weight:400;}
+.wx .p{flex:0 0 42px;text-align:right;font-size:13px;color:var(--gold-deep);font-variant-numeric:tabular-nums;}
 .day.today{box-shadow:0 0 0 2.5px var(--gold);}
 .day.today h2::before{content:"今日　";color:var(--gold-deep);}
 #editBtn{background:var(--gold);border-color:var(--gold);color:#2A1D00;}
@@ -202,6 +282,8 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
 <nav role="tablist">
   <button role="tab" aria-selected="true" data-p="todo">やること</button>
   <button role="tab" aria-selected="false" data-p="pack">持ち物</button>
+  <button role="tab" aria-selected="false" data-p="live">最新情報</button>
+  <button role="tab" aria-selected="false" data-p="me">プロフィール</button>
   <button role="tab" aria-selected="false" data-p="memo">メモ</button>
   <button role="tab" aria-selected="false" data-p="rules">荷物ルール</button>
   <button role="tab" aria-selected="false" data-p="local">現地情報</button>
@@ -213,11 +295,46 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
   <section class="panel" id="p-todo"></section>
   <section class="panel" id="p-pack" hidden></section>
 
+  <section class="panel" id="p-live" hidden>
+    <div class="info">
+      <h2>最新の情報</h2>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:12px"><b>押したときだけ通信します。</b>取得した内容は端末に残るので、あとからオフラインでも見返せます。ホテルのWi-Fiがあるうちに押しておくのがおすすめです。</p>
+      <label class="f">取得する地域（最大6つ）</label>
+      <div class="chips" id="chips"></div>
+      <button class="b pri" id="liveBtn" style="width:100%;margin-top:12px">選んだ地域の情報を取得</button>
+      <p id="liveMsg" style="margin:8px 0 0;font-size:13.5px"></p>
+      <p id="liveAt" style="margin:6px 0 0;font-size:12.5px;color:var(--muted)"></p>
+    </div>
+    <div id="liveOut"></div>
+  </section>
+
+  <section class="panel" id="p-me" hidden>
+    <div class="info">
+      <h2>自己紹介・自分の情報</h2>
+      <p style="font-size:13.5px;color:var(--muted)">項目は自由に追加・削除できます。内容はこの端末にだけ保存され、どこにも送信されません。</p>
+      <div class="warn" style="margin-top:10px">端末のロックが解けていれば誰でも読めます。<b>パスポート番号やカード番号は入れないこと。</b></div>
+    </div>
+    <div id="meOut"></div>
+    <div class="info">
+      <button class="addbtn" id="meAdd" style="display:block">＋ 項目を追加</button>
+    </div>
+  </section>
+
   <section class="panel" id="p-memo" hidden>
     <div class="memo">
       <textarea id="memo" placeholder="自由に書けます。保険会社の緊急連絡先、部屋番号、バディの名前、買うもの、反省点など。入力すると自動で保存されます。"></textarea>
       <p class="saved" id="memoSaved"></p>
     </div>
+    <div class="info" style="margin-top:14px">
+      <h2>添付ファイル</h2>
+      <p style="font-size:13.5px;color:var(--muted)">写真・動画・PDFなどを貼れます。端末の中にだけ保存され、オフラインでも開けます。</p>
+      <input type="file" id="fileIn" multiple style="display:none">
+      <button class="b pri" id="fileBtn" style="width:100%;margin-top:10px">ファイルを追加</button>
+      <p id="fileMsg" style="margin:8px 0 0;font-size:13.5px"></p>
+      <p id="fileUse" style="margin:6px 0 0;font-size:12.5px;color:var(--muted)"></p>
+      <div class="warn" style="margin-top:12px">これはバックアップではありません。写真アプリ側の元データは消さないでください。Safariのサイトデータを消去すると添付も消えます。</div>
+    </div>
+    <div id="fileOut"></div>
   </section>
 
   <section class="panel" id="p-rules" hidden>
@@ -234,9 +351,9 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
     <div class="info">
       <h2>手荷物（機内持ち込み）</h2>
       <dl>
-        <dt>個数</dt><dd>最大1個 + 身の回り品</dd>
+        <dt>個数</dt><dd>最大1個 + 身の回り品1個<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">ハンドバッグ、ノートPC、カメラなど</span></dd>
         <dt>重量</dt><dd>10kg 以下</dd>
-        <dt>サイズ</dt><dd>3辺の合計 115cm 以内<br>各辺 55 × 40 × 25cm 以内</dd>
+        <dt>サイズ</dt><dd>3辺の合計 115cm 以内<br>各辺 23 × 36 × 56cm 以内</dd>
       </dl>
       <h3>液体物のルール</h3>
       <ul>
@@ -246,7 +363,30 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
         <li>飲料、クリーム、ローション、香水、スプレー、シャンプー、歯磨き粉なども対象</li>
       </ul>
       <h3>持ち込めないもの</h3>
-      <p style="font-size:14px">ナイフ、ハサミ、カッター、ドライバー、アイスピック、アーミーナイフ、バット類。→ スーツケースに入れて預ける。発火性物質は預け入れも不可。</p>
+      <p style="font-size:14px">ナイフ、ハサミ、カッター、ドライバー、アイスピック、アーミーナイフ、バット類。まゆ毛を整えるカミソリやひげそりも。→ スーツケースに入れて預ける。</p>
+      <div class="warn">機内では、モバイルバッテリーを<b>座席上の棚に入れず手元で保管</b>。充電するときも状態が見える場所で行うこと。<b>バッテリー式のヘアアイロンは持ち込みも預け入れも不可</b>です（コード付き・電池が外せるものはOK）。</div>
+    </div>
+
+    <div class="info">
+      <h2>どちらにも入れられないもの</h2>
+      <ul>
+        <li>爆発物：花火、クラッカー</li>
+        <li>可燃性物質：マッチ、ライター燃料、オイル式ランタン</li>
+        <li>高圧ガス：スプレー缶、キャンプ用ガスボンベ</li>
+        <li>毒物・腐食性物質：殺虫剤、農薬、漂白剤</li>
+      </ul>
+      <p style="margin-top:10px;font-size:13.5px;color:var(--muted)">虫よけスプレーを持って行くなら、ガス式ではなくポンプ式を選ぶこと。</p>
+    </div>
+
+    <div class="info">
+      <h2>常備薬の持ち込み</h2>
+      <ul>
+        <li><b>未開封の市販薬</b>が望ましい</li>
+        <li>薬品名・成分・効果・使用目的を<b>英訳したメモ</b>を用意する</li>
+        <li>入国審査や税関で使用目的を聞かれたときに提示できる</li>
+        <li>市販薬によっては英訳説明書がネットで見つかる</li>
+      </ul>
+      <p style="margin-top:10px;font-size:13.5px;color:var(--muted)">解熱剤、頭痛薬、腹痛の薬、喉の薬など、不安のあるものは持って行く。持病がある場合は英文処方箋・英文診断書を。</p>
     </div>
     <div class="info">
       <h2>モバイルバッテリー</h2>
@@ -264,13 +404,42 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
       <h2>基本データ</h2>
       <dl>
         <dt>時差</dt><dd>日本 −1時間<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">日本 16:00 = 現地 15:00</span></dd>
-        <dt>通貨</dt><dd>リンギット(RM) 約38.6円</dd>
-        <dt>気温</dt><dd>最高27–32℃ / 最低20–25℃</dd>
+        <dt>通貨</dt><dd>リンギット(RM) 約39.8円<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">2026/7/1時点</span></dd>
+        <dt>気温</dt><dd>9月 最高33℃ / 最低24℃<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">降水量 164mm</span></dd>
         <dt>天候</dt><dd>湿度74%。スコールは必ずある</dd>
-        <dt>言語</dt><dd>マレー語。英語がよく通じる</dd>
-        <dt>宗教</dt><dd>イスラム教が国教</dd>
+        <dt>言語</dt><dd>マレー語。英語は準公用語</dd>
+        <dt>宗教</dt><dd>イスラム教が国教<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">マレー系67% 中華系25% インド系7%</span></dd>
       </dl>
     </div>
+    <div class="info">
+      <h2>入国・税関</h2>
+      <ul>
+        <li>観光目的で90日以内の滞在なら<b>査証は不要</b></li>
+        <li>パスポートの残存有効期間は入国時に<b>6か月以上</b>必要</li>
+        <li>E/Dカードは不要（MDACの登録は別途必要）</li>
+        <li>税関申告書は、申告が必要な人だけ提出</li>
+      </ul>
+      <h3>チップ・税</h3>
+      <p>チップの習慣は基本的にありません。タクシーもホテルの枕銭も不要。よいサービスを受けたときに RM2〜3 を渡すことはあります。</p>
+      <p style="font-size:13.5px;color:var(--muted)">娯楽・ホテル・レストランには サービス税6% + 売上税10%（SST）。食品・衣類・飲料は課税対象外。免税還付の制度はありません。</p>
+    </div>
+
+    <div class="info">
+      <h2>ホテル</h2>
+      <h3>クアンタン（9/8〜9/12）</h3>
+      <p>Megaview Hotel, Kuantan</p>
+      <h3>クアラルンプール（9/12〜9/14）</h3>
+      <p>Starus Hotel Bukit Bintang（旧 Stay with Bintang）<br>
+      <span style="font-size:13.5px;color:var(--muted)">51-A Changkat Bukit Bintang, 50200 Kuala Lumpur</span></p>
+      <dl style="margin-top:10px">
+        <dt>朝食</dt><dd>M1 Café　07:00〜10:30</dd>
+        <dt>Wi-Fi</dt><dd>敷地内で無料</dd>
+        <dt>プラグ</dt><dd>3ピンプラグ</dd>
+        <dt>部屋</dt><dd>電気ケトル、冷蔵庫、金庫あり<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">歯ブラシ・スリッパ・シャンプーもあり</span></dd>
+      </dl>
+      <div class="warn"><b>コインランドリーはありません。</b>ランドリーは外部委託で、館内の売店も両替も使えません。日本語を話せるスタッフも在籍していないので、着替えと現金は自分で計算して用意しておくこと。館内は全面禁煙です。</div>
+    </div>
+
     <div class="info">
       <h2>MDAC（電子入国カード）</h2>
       <dl>
@@ -284,8 +453,8 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
     <div class="info">
       <h2>電源</h2>
       <dl>
-        <dt>電圧</dt><dd>AC 220V / 50Hz</dd>
-        <dt>プラグ</dt><dd>BF型（3芯）が主流<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">他に B / B3 / C 型もある</span></dd>
+        <dt>電圧</dt><dd>AC 240V / 50Hz</dd>
+        <dt>プラグ</dt><dd>BF型（3つ穴・平ピン）<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">KLのホテルも3ピンプラグ</span></dd>
       </dl>
       <div class="warn">充電器やACアダプタが <b>AC100–240V対応</b> か必ず確認。日本国内向けAC100V専用の製品は<b>確実に壊れます</b>（火災の危険あり）。変換プラグは形を変えるだけで、電圧は変換しません。</div>
     </div>
@@ -322,11 +491,23 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
     </div>
     <div class="info">
       <h2>緊急連絡先</h2>
+      <h3>JTB山陰支店（担当：陰山）</h3>
       <dl>
-        <dt>ゆうちょ mijica<br>（国内）</dt><dd>0120-504-186</dd>
-        <dt>ゆうちょ mijica<br>（海外から）</dt><dd>+81-3-5996-1282</dd>
+        <dt>電話</dt><dd>0852-23-6720</dd>
+        <dt>受付</dt><dd>平日 9:30〜17:30<br><span style="font-weight:400;font-size:13.5px;color:var(--muted)">土日祝は休み</span></dd>
+        <dt>住所</dt><dd style="font-size:13.5px">島根県松江市朝日町477-17<br>松江SUNビル7階</dd>
       </dl>
-      <p style="margin-top:12px;font-size:13.5px;color:var(--muted)">保険証書の緊急連絡先はメモ欄に書き足しておくと安心です。</p>
+      <h3>JTBマレーシア支店（クアラルンプール）</h3>
+      <dl>
+        <dt>電話</dt><dd>603-2142-7711</dd>
+        <dt>住所</dt><dd style="font-size:13.5px">Unit 16, 05-07 16F, Amoda Bldg,<br>22 Jalan Imbi, 55100 Kuala Lumpur</dd>
+      </dl>
+      <h3>ゆうちょ mijica</h3>
+      <dl>
+        <dt>国内</dt><dd>0120-504-186</dd>
+        <dt>海外から</dt><dd>+81-3-5996-1282</dd>
+      </dl>
+      <p style="margin-top:12px;font-size:13.5px;color:var(--muted)">事故が起きたときは、現地スタッフ → JTB山陰支店・本社 → 米子高専 → 各参加者・ご家族 の順で連絡が回ります。保険証書の緊急連絡先はメモ欄に書き足しておくこと。</p>
     </div>
   </section>
 
@@ -423,8 +604,8 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
    ファイルを更新したら APP_VERSION を上げる。
    DEFAULTS のリストに項目を足したときは DEFAULT_REV も上げると、
    利用者に「新しい項目を取り込む」ボタンが出る。 */
-var APP_VERSION = "1.3";
-var DEFAULT_REV = 1;
+var APP_VERSION = "2.0";
+var DEFAULT_REV = 2;
 
 /* ---------------- storage ---------------- */
 var mem={}, hasLS=false;
@@ -450,13 +631,16 @@ todo:[
   {id:"neta",n:"交流のネタを用意",s:"日本の文化や習慣を伝える画像・小道具、簡単なお土産があるとよい"},
   {id:"tabireg",n:"外務省「たびレジ」に登録",s:"anzen.mofa.go.jp。旅先の安全情報が届き、事故時の支援も早くなる"},
   {id:"med",n:"常用薬・日用品を揃える",s:"胃腸薬、風邪薬、頭痛薬、酔い止め、解熱剤、虫よけ、日焼け止め、目薬"},
-  {id:"cash",n:"現金とデビットカードを準備",s:"両替は空港や都会の両替所で。ナイトマーケットはカード不可の店が多い"}
+  {id:"cash",n:"現金とデビットカードを準備",s:"両替は空港や都会の両替所で。ナイトマーケットはカード不可の店が多い。KLのホテルには両替サービスも売店もない"},
+  {id:"meden",n:"常備薬の英訳メモを作る",s:"薬品名・成分・効果・使用目的を英語で。入国審査や税関で聞かれたときに出せる。未開封の市販薬が望ましい"},
+  {id:"photo2",n:"証明写真の予備を用意",s:"4.5cm × 3.5cm。パスポート紛失時の再発給に必要"},
+  {id:"key",n:"スーツケースのカギを手荷物へ",s:"預けた荷物の中に入れてしまうと開けられない"}
  ]},
  {gid:"t3",t:"9/5〜9/6",due:"出発直前",lvl:"soon",items:[
   {id:"mdac",n:"MDAC（マレーシア電子入国カード）を登録",s:"9/6(土)から登録可能（到着日を含む3日前から）。便名は NH885、到着日は 9/8。公式 imigresen-online.imi.gov.my から。無料でカード情報の入力は不要 — 費用を求めるサイトは偽物",urgent:1},
   {id:"mdacpdf",n:"MDACの控えをオフラインで保存",s:"完了メールのPIN番号とPDFを保存し、スクリーンショットも撮っておく。到着時は機内モードで通信できない",urgent:1},
   {id:"copy",n:"パスポート写真ページのコピーを2枚",s:"紛失時に有効。パスポートとは別々の場所に保管する"},
-  {id:"weigh",n:"スーツケースの重量を測る",s:"23kg以下、3辺合計158cm以内。コインランドリーがあるので全日数分の服は不要"},
+  {id:"weigh",n:"スーツケースの重量を測る",s:"23kg以下、3辺合計158cm以内、2個まで。KLのホテルにコインランドリーは無いので着替えは日数分見込む"},
   {id:"liquid",n:"液体物を100ml以下にまとめる",s:"1Lまでの透明ジップ袋1つに収める。それ以外は預け入れへ"},
   {id:"line",n:"LINEグループに入っているか確認",s:"現地の連絡は基本LINE"},
   {id:"ubuntu",n:"Ubuntu の依存を先に落としておく",s:"cargo fetch / apt full-upgrade / docker pull。Wi-Fiを従量制課金接続に設定し、snapの自動更新を止める"},
@@ -470,7 +654,7 @@ todo:[
  ]},
  {gid:"t5",t:"提出物・手続き",due:"済んでいれば✓",lvl:"",items:[
   {id:"hoken",n:"海外旅行傷害保険の申込書を教務係へ提出",s:"全員加入が必須"},
-  {id:"jtb",n:"JTBへの支払 179,240円",s:"往復航空券（燃油サーチャージ・空港税込み）"},
+  {id:"jtb",n:"JTBへの支払 199,490円",s:"基本旅行代金179,240 + 国内空港使用料3,850 + 羽田空港ホテル16,400。8/25(火) 入金締切"},
   {id:"umpsa",n:"パハン大学へ 720USD を振込",s:"7/31期限。現地移動費・食費・滞在費・研修プログラム費用"},
   {id:"tshirt",n:"Tシャツサイズ調査の記入",s:""}
  ]},
@@ -488,7 +672,9 @@ pack:[
   {id:"k3",n:"海外旅行傷害保険 証書",s:""},
   {id:"k4",n:"現金・デビットカード・クレジットカード",s:""},
   {id:"k5",n:"自己評価シート",s:""},
-  {id:"k6",n:"学生証",s:""}
+  {id:"k6",n:"学生証",s:""},
+  {id:"k7",n:"しおり",s:"JTBの旅程表"},
+  {id:"k8",n:"証明写真の予備",s:"4.5cm × 3.5cm"}
  ]},
  {gid:"p2",t:"手荷物に入れる",due:"預けない",lvl:"soon",items:[
   {id:"h1",n:"パソコン",s:"高価品・壊れ物は預けない"},
@@ -497,10 +683,14 @@ pack:[
   {id:"h4",n:"常用薬",s:""},
   {id:"h5",n:"薄手の上着・カーディガン",s:"機内は気温が下がり湿度も低い"},
   {id:"h6",n:"液体物のジップ袋",s:"100ml以下の容器のみ、1L袋1つ"},
-  {id:"h7",n:"筆記用具",s:""}
+  {id:"h7",n:"筆記用具",s:""},
+  {id:"h8",n:"スーツケースのカギ",s:"預ける荷物の中に入れない"},
+  {id:"h9",n:"マスク・体温計",s:""},
+  {id:"h10",n:"常備薬の英訳メモ",s:"該当者は英文処方箋・英文診断書も"},
+  {id:"h11",n:"スマートフォン",s:"当日お渡しの分があれば一緒に"}
  ]},
  {gid:"p3",t:"預け入れ荷物",due:"",lvl:"",items:[
-  {id:"s1",n:"着替え",s:"高温多湿。楽に動ける服装。数日に1回コインランドリーがあるので全日数分は不要"},
+  {id:"s1",n:"着替え・寝間着",s:"高温多湿で楽に動ける服装。KLのホテルにコインランドリーは無いので日数分を見込む"},
   {id:"s2",n:"洗面用具・石鹸・シャンプー",s:"現地のものが体質に合わない場合に備えて"},
   {id:"s3",n:"折り畳み傘 / レインコート",s:"スコールは必ずある"},
   {id:"s4",n:"日焼け止め・サングラス",s:""},
@@ -510,7 +700,9 @@ pack:[
   {id:"s8",n:"動きやすい靴",s:""},
   {id:"s9",n:"洗濯ネット",s:"複数人でまとめて洗うので"},
   {id:"s10",n:"ハサミ・爪切りなど刃物",s:"機内持ち込み不可なので必ず預ける"},
-  {id:"s11",n:"変換プラグ(BF型)",s:""}
+  {id:"s11",n:"変換プラグ(BF型)",s:"240V対応か充電器側も確認"},
+  {id:"s12",n:"帽子",s:"日差しが強い"},
+  {id:"s13",n:"100mlを超える液体",s:"手荷物に入れられないので必ずこちらへ"}
  ]},
  {gid:"p4",t:"あると便利",due:"任意",lvl:"",items:[
   {id:"o1",n:"簡易スリッパ",s:"機内で足がむくむのを防ぐ"},
@@ -883,6 +1075,332 @@ function refreshVersionUI(){
 }
 document.getElementById("mergeBtn").onclick=mergeDefaults;
 
+
+/* ---------------- 最新情報（手動取得のみ） ---------------- */
+var SPOTS=[
+ {id:"kua",n:"クアンタン",la:3.8077,lo:103.3260},
+ {id:"kul",n:"クアラルンプール",la:3.1390,lo:101.6869},
+ {id:"sgl",n:"スンガイ・レンビン",la:3.9167,lo:103.0500},
+ {id:"png",n:"ペナン",la:5.4141,lo:100.3288},
+ {id:"ipo",n:"イポー",la:4.5975,lo:101.0901},
+ {id:"mlk",n:"マラッカ",la:2.1896,lo:102.2501},
+ {id:"jhb",n:"ジョホールバル",la:1.4927,lo:103.7414},
+ {id:"kbr",n:"コタバル",la:6.1254,lo:102.2381},
+ {id:"trg",n:"クアラトレンガヌ",la:5.3302,lo:103.1408},
+ {id:"lgk",n:"ランカウイ",la:6.3500,lo:99.8000},
+ {id:"cam",n:"キャメロンハイランド",la:4.4711,lo:101.3771},
+ {id:"bki",n:"コタキナバル",la:5.9804,lo:116.0735},
+ {id:"kch",n:"クチン",la:1.5535,lo:110.3593}
+];
+var WMO={0:"快晴",1:"晴れ",2:"晴れ時々曇り",3:"曇り",45:"霧",48:"霧",51:"弱い霧雨",53:"霧雨",55:"強い霧雨",
+ 61:"小雨",63:"雨",65:"大雨",80:"にわか雨",81:"強いにわか雨",82:"激しいにわか雨",95:"雷雨",96:"雷雨（雹）",99:"激しい雷雨"};
+function wmo(c){ return WMO[c]||"—"; }
+function md(iso){ var a=iso.split("-"); return (+a[1])+"/"+(+a[2]); }
+function hh(iso){ return iso.slice(11,13); }
+function rainColor(p){ if(p==null) return "#B4B2A9"; if(p>=60) return "#C1272D"; if(p>=30) return "#E8A317"; return "#1E7A5A"; }
+function aqiWord(v){ if(v==null) return "—"; if(v<=50) return "良い"; if(v<=100) return "ふつう"; if(v<=150) return "敏感な人は注意"; if(v<=200) return "健康に良くない"; return "非常に良くない"; }
+
+function selSpots(){ var v=get("prep-spots",["kua","kul"]); return v.length?v:["kua","kul"]; }
+function renderChips(){
+  var sel=selSpots(), h="";
+  SPOTS.forEach(function(sp){
+    h+='<button class="chip" data-sp="'+sp.id+'" aria-pressed="'+(sel.indexOf(sp.id)>=0)+'">'+esc(sp.n)+'</button>';
+  });
+  document.getElementById("chips").innerHTML=h;
+}
+document.addEventListener("click",function(e){
+  var c=e.target.closest?e.target.closest("[data-sp]"):null;
+  if(!c) return;
+  var sel=selSpots().slice(), id=c.dataset.sp, i=sel.indexOf(id);
+  if(i>=0){ if(sel.length>1) sel.splice(i,1); }
+  else { if(sel.length>=6){ document.getElementById("liveMsg").style.color="var(--muted)";
+         document.getElementById("liveMsg").textContent="一度に選べるのは6地域までです"; return; } sel.push(id); }
+  set("prep-spots",sel); renderChips();
+});
+
+function squallLine(hrs){
+  var peak=null;
+  hrs.forEach(function(x){ if(x.p!=null && (!peak||x.p>peak.p)) peak=x; });
+  if(!peak||peak.p<40) return "24時間以内に強い雨の見込みは低めです。";
+  return "降水確率がいちばん高いのは "+(+hh(peak.t))+"時ごろ（"+peak.p+"%）。スコールに備えて折り畳み傘を。";
+}
+
+function mapSvg(L){
+  var PEN="100.1,6.45 100.35,6.55 100.6,6.45 101.1,6.25 101.6,6.45 102.1,6.25 102.5,5.8 103.0,5.5 103.45,4.8 103.45,4.2 103.35,3.6 103.6,2.9 104.25,2.3 104.1,1.55 103.6,1.35 103.0,1.45 102.5,1.85 102.0,2.2 101.5,2.6 101.3,3.0 100.9,3.5 100.6,4.1 100.4,4.8 100.25,5.5";
+  var BOR="109.6,1.9 110.3,1.7 111.0,1.55 111.5,1.9 112.5,2.2 113.0,2.7 113.7,3.2 114.5,3.5 115.0,4.2 115.2,4.9 115.5,5.0 116.0,5.5 116.3,6.2 116.7,6.9 117.3,7.1 117.9,6.6 118.3,6.3 119.2,5.5 118.6,5.2 118.0,4.6 117.5,4.2 117.0,4.0 116.5,3.4 115.5,3.0 114.8,2.4 114.0,1.5 113.0,1.4 112.2,1.2 111.5,1.0 110.5,0.9 109.7,1.4";
+  var K=16.4, X0=99.2, Y0=7.7;
+  function px(pts){ return pts.split(" ").map(function(q){ var a=q.split(",");
+    return ((+a[0]-X0)*K).toFixed(1)+","+((Y0-(+a[1]))*K).toFixed(1); }).join(" "); }
+  var W=Math.round((120.0-X0)*K), H=Math.round((Y0-0.4)*K);
+  var h='<svg width="100%" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="取得した地域の降水確率">';
+  h+='<polygon points="'+px(PEN)+'" fill="#EDF0F5" stroke="#C7CFDD" stroke-width="1"/>';
+  h+='<polygon points="'+px(BOR)+'" fill="#EDF0F5" stroke="#C7CFDD" stroke-width="1"/>';
+  (L.wx||[]).forEach(function(w){
+    var sp=null; SPOTS.forEach(function(z){ if(z.id===w.id) sp=z; }); if(!sp) return;
+    var x=(sp.lo-X0)*K, y=(Y0-sp.la)*K;
+    var p=w.days&&w.days[0]?w.days[0].p:null;
+    h+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="6" fill="'+rainColor(p)+'" stroke="#fff" stroke-width="2"/>';
+    var anchor=(sp.lo>112)?"middle":"middle";
+    h+='<text x="'+x.toFixed(1)+'" y="'+(y-11).toFixed(1)+'" text-anchor="'+anchor+'" font-size="10.5" font-weight="600" fill="#16243D">'+esc(sp.n)+'</text>';
+    if(p!=null) h+='<text x="'+x.toFixed(1)+'" y="'+(y+18).toFixed(1)+'" text-anchor="middle" font-size="10" fill="#78849B">'+p+'%</text>';
+  });
+  h+='</svg>';
+  return h;
+}
+
+function renderLive(){
+  var L=get("prep-live",null), out=document.getElementById("liveOut"), at=document.getElementById("liveAt");
+  if(!out) return;
+  renderChips();
+  if(!L){ out.innerHTML=""; at.textContent="まだ取得していません"; return; }
+  at.textContent="取得 "+new Date(L.at).toLocaleString("ja-JP");
+  var h="";
+
+  if(L.rate){
+    var r=L.rate.v;
+    h+='<div class="info"><h2>為替</h2><div class="rate"><b>'+r.toFixed(2)+'</b><span>円 &nbsp;/&nbsp; 1 RM</span></div><div class="conv">';
+    [10,50,100,500].forEach(function(m){ h+='<i>RM '+m+'</i><span>約 '+Math.round(m*r).toLocaleString()+' 円</span>'; });
+    h+='<i>1,000円</i><span>約 RM '+(1000/r).toFixed(1)+'</span><i>5,000円</i><span>約 RM '+(5000/r).toFixed(1)+'</span></div>';
+    h+='<p style="margin:12px 0 0;font-size:12.5px;color:var(--muted)">ECB基準レート '+esc(L.rate.d)+'。両替所の実勢はこれより数%不利になります。</p></div>';
+  }
+
+  if((L.wx||[]).length>1){
+    h+='<div class="info"><h2>天気マップ</h2>'+mapSvg(L);
+    h+='<p style="margin:8px 0 0;font-size:12.5px;color:var(--muted)">今日の降水確率。<span style="color:#1E7A5A">緑 30%未満</span> / <span style="color:#B87B08">黄 30〜59%</span> / <span style="color:#C1272D">赤 60%以上</span>。位置は実際の緯度経度、海岸線は模式図です。</p></div>';
+  }
+
+  (L.wx||[]).forEach(function(w){
+    h+='<div class="info"><h2>'+esc(w.n)+'</h2>';
+    if(w.aqi!=null||w.pm25!=null||w.uv!=null){
+      h+='<div class="aq">';
+      if(w.aqi!=null) h+='<span><i>空気質</i> <b>'+Math.round(w.aqi)+'</b> '+aqiWord(w.aqi)+'</span>';
+      if(w.pm25!=null) h+='<span><i>PM2.5</i> <b>'+w.pm25.toFixed(1)+'</b> µg/m³</span>';
+      if(w.uv!=null) h+='<span><i>UV指数</i> <b>'+w.uv.toFixed(1)+'</b></span>';
+      h+='</div>';
+    }
+    if(w.hrs&&w.hrs.length){
+      h+='<h3 style="margin:4px 0 0">スコール予測（これから24時間）</h3>';
+      h+='<div class="sq">';
+      w.hrs.forEach(function(x){
+        var p=x.p==null?0:x.p;
+        h+='<i style="height:'+Math.max(2,Math.round(p*0.5))+'px;background:'+rainColor(x.p)+'"></i>';
+      });
+      h+='</div><div class="sqx">';
+      for(var k=0;k<w.hrs.length;k+=6) h+='<span>'+(+hh(w.hrs[k].t))+'時</span>';
+      h+='<span>'+(+hh(w.hrs[w.hrs.length-1].t))+'時</span></div>';
+      h+='<p style="margin:9px 0 0;font-size:13.5px">'+esc(squallLine(w.hrs))+'</p>';
+    }
+    if(w.sr) h+='<p style="margin:12px 0 0;font-size:13.5px;color:var(--muted)">日の出 '+esc(w.sr)+' ／ 日の入り '+esc(w.ss)+'</p>';
+    h+='<h3 style="margin:16px 0 4px">10日間予報</h3>';
+    w.days.forEach(function(d){
+      h+='<div class="wx"><span class="d">'+esc(md(d.t))+'</span><span class="s">'+esc(wmo(d.c))+'</span>';
+      h+='<span class="t">'+Math.round(d.mx)+'<em> / '+Math.round(d.mn)+'℃</em></span>';
+      h+='<span class="p">'+(d.p==null?"":d.p+"%")+'</span></div>';
+    });
+    h+='<p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">右端は降水確率。データ: Open-Meteo</p></div>';
+  });
+  out.innerHTML=h;
+}
+
+document.getElementById("liveBtn").onclick=function(){
+  var m=document.getElementById("liveMsg"), btn=this;
+  if(!navigator.onLine){ m.style.color="var(--muted)"; m.textContent="オフラインです。前回取得した内容を下に表示しています。"; return; }
+  m.style.color="var(--muted)"; m.textContent="取得しています…"; btn.disabled=true;
+
+  var picked=SPOTS.filter(function(sp){ return selSpots().indexOf(sp.id)>=0; });
+  var jobs=[ fetch("https://api.frankfurter.dev/v1/latest").then(function(r){ return r.json(); }).catch(function(){ return null; }) ];
+  picked.forEach(function(sp){
+    jobs.push(fetch("https://api.open-meteo.com/v1/forecast?latitude="+sp.la+"&longitude="+sp.lo+
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max,sunrise,sunset"+
+      "&hourly=precipitation_probability&timezone=Asia%2FKuala_Lumpur&forecast_days=10")
+      .then(function(r){ return r.json(); }).catch(function(){ return null; }));
+    jobs.push(fetch("https://air-quality-api.open-meteo.com/v1/air-quality?latitude="+sp.la+"&longitude="+sp.lo+
+      "&current=pm2_5,us_aqi&timezone=Asia%2FKuala_Lumpur")
+      .then(function(r){ return r.json(); }).catch(function(){ return null; }));
+  });
+
+  Promise.all(jobs).then(function(res){
+    var L={at:Date.now(),wx:[]};
+    var fx=res[0];
+    if(fx&&fx.rates&&fx.rates.JPY&&fx.rates.MYR) L.rate={v:fx.rates.JPY/fx.rates.MYR,d:fx.date};
+    picked.forEach(function(sp,i){
+      var w=res[1+i*2], aq=res[2+i*2];
+      if(!w||!w.daily) return;
+      var d=w.daily, days=[];
+      for(var k=0;k<d.time.length;k++){
+        days.push({t:d.time[k],c:d.weather_code[k],mx:d.temperature_2m_max[k],mn:d.temperature_2m_min[k],
+                   p:d.precipitation_probability_max?d.precipitation_probability_max[k]:null});
+      }
+      var hrs=[];
+      if(w.hourly&&w.hourly.time){
+        var nowH=partsIn("Asia/Kuala_Lumpur"), stamp=nowH.date+"T"+nowH.hm.slice(0,2);
+        var st=0;
+        for(var j=0;j<w.hourly.time.length;j++){ if(w.hourly.time[j].slice(0,13)>=stamp){ st=j; break; } }
+        for(var j2=st;j2<Math.min(st+24,w.hourly.time.length);j2++){
+          hrs.push({t:w.hourly.time[j2],p:w.hourly.precipitation_probability?w.hourly.precipitation_probability[j2]:null});
+        }
+      }
+      var rec={id:sp.id,n:sp.n,days:days,hrs:hrs};
+      if(d.uv_index_max) rec.uv=d.uv_index_max[0];
+      if(d.sunrise){ rec.sr=d.sunrise[0].slice(11,16); rec.ss=d.sunset[0].slice(11,16); }
+      if(aq&&aq.current){ rec.aqi=aq.current.us_aqi; rec.pm25=aq.current.pm2_5; }
+      L.wx.push(rec);
+    });
+    if(!L.rate&&!L.wx.length) throw new Error("中身が空でした");
+    set("prep-live",L); renderLive();
+    m.style.color="var(--green)"; m.textContent="取得しました";
+  }).catch(function(err){
+    m.style.color="var(--red)"; m.textContent="取得できませんでした（"+err.message+"）。前回の内容は下に残っています。";
+  }).then(function(){ btn.disabled=false; });
+};
+
+/* ---------------- プロフィール（自由項目） ---------------- */
+var ME_SEED=[
+ {id:"m1",l:"名前 / Name",v:"",ml:0},
+ {id:"m2",l:"学校・学科・学年",v:"",ml:0},
+ {id:"m3",l:"部活動",v:"",ml:0},
+ {id:"m4",l:"趣味",v:"",ml:0},
+ {id:"m5",l:"英語の自己紹介（歓迎セレモニー用）",v:"",ml:1},
+ {id:"m6",l:"日本文化として紹介したいこと",v:"",ml:1},
+ {id:"m7",l:"保険会社と証券番号の控え",v:"",ml:1},
+ {id:"m8",l:"緊急連絡先（家族）",v:"",ml:1},
+ {id:"m9",l:"ホテルの部屋番号・バディの名前",v:"",ml:1}
+];
+function meData(){ return get("prep-me",null) || ME_SEED.map(function(x){ return {id:x.id,l:x.l,v:x.v,ml:x.ml}; }); }
+function meSave(d){ set("prep-me",d); }
+
+function renderMe(){
+  var d=meData(), out=document.getElementById("meOut"); if(!out) return;
+  var h='<div class="info">';
+  d.forEach(function(f){
+    h+='<div class="mefield" data-mf="'+esc(f.id)+'"><label>'+esc(f.l)+'</label>';
+    if(f.ml) h+='<textarea data-mv="'+esc(f.id)+'" placeholder="">'+esc(f.v||"")+'</textarea>';
+    else h+='<input type="text" data-mv="'+esc(f.id)+'" value="'+esc(f.v||"")+'">';
+    h+='<div class="row2"><button class="fbtn" data-mup="'+esc(f.id)+'">↑</button><button class="fbtn" data-mdn="'+esc(f.id)+'">↓</button>';
+    h+='<button class="fbtn" data-mren="'+esc(f.id)+'">名前を変える</button>';
+    h+='<button class="fbtn del" data-mdel="'+esc(f.id)+'">削除</button></div></div>';
+  });
+  h+='</div>';
+  out.innerHTML=h;
+}
+
+document.addEventListener("input",function(e){
+  var t=e.target; if(!t.dataset||!t.dataset.mv) return;
+  var d=meData();
+  d.forEach(function(f){ if(f.id===t.dataset.mv) f.v=t.value; });
+  meSave(d);
+});
+
+document.addEventListener("click",function(e){
+  var t=e.target; if(!t.dataset) return;
+  var d=meData(), i, id;
+  function idx(x){ for(var k=0;k<d.length;k++) if(d[k].id===x) return k; return -1; }
+
+  if(t.dataset.mdel){
+    id=t.dataset.mdel; i=idx(id); if(i<0) return;
+    if(!confirm("「"+d[i].l+"」を削除します。よろしいですか？")) return;
+    d.splice(i,1); meSave(d); renderMe(); return;
+  }
+  if(t.dataset.mren){
+    id=t.dataset.mren; i=idx(id); if(i<0) return;
+    var nn=prompt("項目の名前", d[i].l); if(nn===null) return;
+    nn=nn.trim(); if(!nn) return;
+    d[i].l=nn; meSave(d); renderMe(); return;
+  }
+  if(t.dataset.mup||t.dataset.mdn){
+    var dir=t.dataset.mup?-1:1; id=t.dataset.mup||t.dataset.mdn; i=idx(id); if(i<0) return;
+    var j=i+dir; if(j<0||j>=d.length) return;
+    var tmp=d[i]; d[i]=d[j]; d[j]=tmp; meSave(d); renderMe(); return;
+  }
+});
+
+var meAddBtn=document.getElementById("meAdd");
+if(meAddBtn) meAddBtn.onclick=function(){
+  var l=prompt("項目の名前（例：バディの連絡先）"); if(l===null) return;
+  l=l.trim(); if(!l) return;
+  var ml=confirm("長い文章を入れますか？\n「OK」で複数行、「キャンセル」で1行になります。")?1:0;
+  var d=meData();
+  d.push({id:"me"+Date.now().toString(36),l:l,v:"",ml:ml});
+  meSave(d); renderMe();
+};
+
+/* ---------------- 添付ファイル（IndexedDB） ---------------- */
+var DB=null, urls=[];
+function idb(){
+  return new Promise(function(res,rej){
+    if(DB) return res(DB);
+    var r=indexedDB.open("prep-files",1);
+    r.onupgradeneeded=function(){ if(!r.result.objectStoreNames.contains("f")) r.result.createObjectStore("f",{keyPath:"id"}); };
+    r.onsuccess=function(){ DB=r.result; res(DB); };
+    r.onerror=function(){ rej(r.error||new Error("開けません")); };
+  });
+}
+function fPut(rec){ return idb().then(function(db){ return new Promise(function(res,rej){
+  var t=db.transaction("f","readwrite"); t.objectStore("f").put(rec);
+  t.oncomplete=function(){ res(); }; t.onerror=function(){ rej(t.error); };
+});});}
+function fAll(){ return idb().then(function(db){ return new Promise(function(res,rej){
+  var t=db.transaction("f","readonly"), q=t.objectStore("f").getAll();
+  q.onsuccess=function(){ res(q.result||[]); }; q.onerror=function(){ rej(q.error); };
+});});}
+function fDel(id){ return idb().then(function(db){ return new Promise(function(res,rej){
+  var t=db.transaction("f","readwrite"); t.objectStore("f").delete(id);
+  t.oncomplete=function(){ res(); }; t.onerror=function(){ rej(t.error); };
+});});}
+function kb(n){ return n<1024*1024 ? (n/1024).toFixed(0)+" KB" : (n/1048576).toFixed(1)+" MB"; }
+function ext(name){ var i=name.lastIndexOf("."); return i<0?"FILE":name.slice(i+1).toUpperCase().slice(0,4); }
+
+function renderFiles(){
+  var out=document.getElementById("fileOut"), use=document.getElementById("fileUse");
+  if(!out) return;
+  urls.forEach(function(u){ URL.revokeObjectURL(u); }); urls=[];
+  fAll().then(function(list){
+    list.sort(function(x,y){ return y.at-x.at; });
+    var total=0; list.forEach(function(f){ total+=f.size; });
+    use.textContent = list.length ? (list.length+"件 / "+kb(total)) : "";
+    if(!list.length){ out.innerHTML=""; return; }
+    var h='<div class="info">';
+    list.forEach(function(f){
+      var u=URL.createObjectURL(f.blob); urls.push(u);
+      h+='<div class="fitem">';
+      if(f.type.indexOf("image/")===0) h+='<img src="'+u+'" alt="">';
+      else if(f.type.indexOf("video/")===0) h+='<video src="'+u+'" muted playsinline></video>';
+      else h+='<span class="fico">'+esc(ext(f.name))+'</span>';
+      h+='<span class="fmeta"><b>'+esc(f.name)+'</b><small>'+kb(f.size)+' ／ '+new Date(f.at).toLocaleDateString("ja-JP")+'</small>';
+      h+='<span style="display:block;margin-top:7px"><a class="fbtn" href="'+u+'" target="_blank" rel="noopener">開く</a>';
+      h+='<button class="fbtn del" data-fdel="'+esc(f.id)+'">削除</button></span></span></div>';
+    });
+    h+='</div>';
+    out.innerHTML=h;
+  }).catch(function(){ out.innerHTML='<div class="info"><p style="color:var(--red)">添付を読み込めませんでした。</p></div>'; });
+}
+
+var fileBtn=document.getElementById("fileBtn"), fileIn=document.getElementById("fileIn");
+if(fileBtn) fileBtn.onclick=function(){ fileIn.click(); };
+if(fileIn) fileIn.onchange=function(){
+  var m=document.getElementById("fileMsg"), fs=Array.prototype.slice.call(fileIn.files||[]);
+  if(!fs.length) return;
+  m.style.color="var(--muted)"; m.textContent="保存しています…";
+  var big=fs.filter(function(f){ return f.size>50*1024*1024; });
+  if(big.length){ m.style.color="var(--red)"; m.textContent="50MBを超えるファイルは追加できません："+big[0].name; fileIn.value=""; return; }
+  Promise.all(fs.map(function(f){
+    return fPut({id:"f"+Date.now().toString(36)+Math.floor(Math.random()*9000+1000),
+                 name:f.name,type:f.type||"application/octet-stream",size:f.size,at:Date.now(),blob:f});
+  })).then(function(){
+    m.style.color="var(--green)"; m.textContent=fs.length+"件を追加しました";
+    fileIn.value=""; renderFiles();
+  }).catch(function(err){
+    m.style.color="var(--red)"; m.textContent="保存できませんでした（"+(err.message||"容量不足の可能性")+"）";
+    fileIn.value="";
+  });
+};
+
+document.addEventListener("click",function(e){
+  var t=e.target; if(!t.dataset||!t.dataset.fdel) return;
+  if(!confirm("この添付を削除します。よろしいですか？")) return;
+  fDel(t.dataset.fdel).then(renderFiles);
+});
+
 /* ---------------- service worker / update ----------------
    通信は「更新を確認する」を押したときだけ。
    起動時に register() を呼び直すと通信が走るので、導入済みなら呼ばない。 */
@@ -961,7 +1479,7 @@ document.getElementById("checkUpd").onclick=function(){
 };
 
 /* init */
-redraw(); renderDays(); renderHero(); showOffline(); refreshVersionUI(); showLastCheck();
+redraw(); renderDays(); renderHero(); showOffline(); refreshVersionUI(); showLastCheck(); renderLive(); renderMe(); renderFiles();
 setInterval(renderHero, 30000);
 document.addEventListener("visibilitychange",function(){ if(!document.hidden){ renderHero(); renderDays(); } });
 if(!get("prep-data",null)) set("prep-rev",DEFAULT_REV);

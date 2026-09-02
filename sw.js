@@ -4,11 +4,11 @@
  *       裏で勝手に取り直すことはしない（通信量を使わないため）。
  *
  * 【ファイルを更新したときにやること】
- *   下の CACHE の数字を必ず上げる（prep-v4 → prep-v4 のように）。
+ *   下の CACHE の数字を必ず上げる（prep-v5 → prep-v4 のように）。
  *   これを上げないと、古いキャッシュが残り続けて更新が届きません。
  */
 
-var CACHE = "prep-v4";
+var CACHE = "prep-v7";
 
 var ASSETS = [
   "./",
@@ -46,6 +46,11 @@ self.addEventListener("message", function (e) {
    キャッシュに無いものだけネットに取りに行く（オフラインなら失敗する）。 */
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
+
+  /* 外部API（為替・天気）は横取りしない。素通ししてネットに行かせる。 */
+  var u;
+  try { u = new URL(e.request.url); } catch (err) { return; }
+  if (u.origin !== self.location.origin) return;
 
   e.respondWith(
     caches.match(e.request).then(function (hit) {
