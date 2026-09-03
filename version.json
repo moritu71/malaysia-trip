@@ -1,5 +1,5 @@
 {
-  "version": "2.3",
-  "cache": "prep-v10",
+  "version": "2.4",
+  "cache": "prep-v11",
   "note": "端末側はこのファイルを見て新しい版があるか判断します。index.html の APP_VERSION と必ず揃えてください。"
 }

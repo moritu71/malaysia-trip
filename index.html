@@ -160,6 +160,13 @@ body.editing .hint{display:block;}
 .due.now{background:#FBEAEA;color:var(--red);}
 .due.soon{background:#FDF2DC;color:var(--gold-deep);}
 .tally{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.tally.done{color:var(--green);font-weight:700;}
+.ghead{cursor:pointer;}
+.chev{flex:0 0 auto;width:14px;font-size:12px;color:var(--muted);transition:transform .15s ease;}
+.group.collapsed .chev{transform:rotate(-90deg);}
+.group.collapsed .item,.group.collapsed .addrow{display:none;}
+body.editing .group.collapsed .item{display:flex;}
+body.editing .group.collapsed .addrow{display:block;}
 
 /* items */
 .item{display:flex;gap:12px;padding:12px 15px;border-top:1px solid #F0F2F6;cursor:pointer;align-items:flex-start;}
@@ -611,7 +618,7 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
    ファイルを更新したら APP_VERSION を上げる。
    DEFAULTS のリストに項目を足したときは DEFAULT_REV も上げると、
    利用者に「新しい項目を取り込む」ボタンが出る。 */
-var APP_VERSION = "2.3";
+var APP_VERSION = "2.4";
 var DEFAULT_REV = 2;
 
 /* ---------------- storage ---------------- */
@@ -744,14 +751,32 @@ function uid(){ return "u"+Date.now().toString(36)+Math.floor(Math.random()*900+
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
 
 /* ---------------- render ---------------- */
+/* ---------------- 折りたたみ ---------------- */
+function collapseMap(){ return get("prep-collapse",{}); }
+function isGroupDone(groupEl){
+  var boxes=groupEl.querySelectorAll('input[type=checkbox]');
+  if(!boxes.length) return false;
+  for(var i=0;i<boxes.length;i++) if(!boxes[i].checked) return false;
+  return true;
+}
+function applyCollapse(groupEl,coll){ groupEl.classList.toggle("collapsed",coll); }
+function toggleCollapseManual(groupEl,gid){
+  var m=collapseMap(), cur=groupEl.classList.contains("collapsed");
+  m[gid]=!cur; set("prep-collapse",m); applyCollapse(groupEl,!cur);
+}
+
 function renderList(key){
   var el=document.getElementById("p-"+key), groups=data[key]||[], h="";
   h+='<div class="hint">編集モードです。鉛筆マークで項目を直せます。見出しをタップするとグループを編集できます。</div>';
   groups.forEach(function(g){
-    h+='<div class="group" data-g="'+esc(g.gid)+'">';
-    h+='<div class="ghead" data-gedit="'+esc(g.gid)+'" data-k="'+key+'"><h2>'+esc(g.t)+'</h2>';
+    var tot=(g.items||[]).length, dn=(g.items||[]).filter(function(it){return checks[it.id];}).length;
+    var autoC = tot>0 && dn===tot;
+    var cmap = collapseMap();
+    var coll = (g.gid in cmap) ? cmap[g.gid] : autoC;
+    h+='<div class="group'+(coll?' collapsed':'')+'" data-g="'+esc(g.gid)+'">';
+    h+='<div class="ghead" data-gedit="'+esc(g.gid)+'" data-k="'+key+'"><span class="chev">▾</span><h2>'+esc(g.t)+'</h2>';
     if(g.due) h+='<span class="due '+esc(g.lvl||"")+'">'+esc(g.due)+'</span>';
-    h+='<span class="tally"></span></div>';
+    h+='<span class="tally'+(autoC?' done':'')+'"></span></div>';
     (g.items||[]).forEach(function(it){
       h+='<div class="item">';
       h+='<input type="checkbox" data-id="'+esc(it.id)+'"'+(checks[it.id]?" checked":"")+'>';
@@ -784,7 +809,8 @@ function updateTallies(){
   document.querySelectorAll(".group").forEach(function(g){
     var all=g.querySelectorAll('input[type=checkbox]').length;
     var dn=g.querySelectorAll('input[type=checkbox]:checked').length;
-    var t=g.querySelector(".tally"); if(t) t.textContent=dn+"/"+all;
+    var t=g.querySelector(".tally");
+    if(t){ t.textContent=dn+"/"+all; t.classList.toggle("done", all>0 && dn===all); }
   });
   var tot=0, done=0;
   ["todo","pack"].forEach(function(k){
@@ -972,6 +998,11 @@ document.addEventListener("change",function(e){
   if(b.type==="checkbox"&&b.dataset.id){
     if(b.checked) checks[b.dataset.id]=1; else delete checks[b.dataset.id];
     saveChecks(); updateTallies();
+    var itemEl=b.closest(".item"), groupEl=itemEl&&itemEl.closest(".group");
+    if(groupEl){
+      var gid=groupEl.dataset.g, m=collapseMap();
+      if(!(gid in m)) applyCollapse(groupEl, isGroupDone(groupEl));
+    }
   }
 });
 
@@ -986,6 +1017,12 @@ document.addEventListener("click",function(e){
   if(editing){
     var gh=t.closest?t.closest("[data-gedit]"):null;
     if(gh){ openGroup(gh.dataset.k,gh.dataset.gedit); return; }
+    return;
+  }
+  var ghc=t.closest?t.closest(".ghead"):null;
+  if(ghc){
+    var gEl=ghc.closest(".group");
+    if(gEl) toggleCollapseManual(gEl,ghc.dataset.gedit);
     return;
   }
   var row=t.closest?t.closest(".item"):null;
@@ -1024,11 +1061,11 @@ memo.addEventListener("input",function(){
 /* settings */
 document.getElementById("clearChecks").onclick=function(){
   if(!confirm("すべてのチェックを外します。よろしいですか？")) return;
-  checks={}; saveChecks(); redraw();
+  checks={}; saveChecks(); set("prep-collapse",{}); redraw();
 };
 document.getElementById("restoreDefaults").onclick=function(){
   if(!confirm("追加・編集した項目をすべて破棄して初期状態に戻します。よろしいですか？")) return;
-  data=clone(DEFAULTS); saveData(); redraw();
+  data=clone(DEFAULTS); saveData(); set("prep-collapse",{}); redraw();
 };
 document.getElementById("dumpJson").onclick=function(){
   document.getElementById("json").value=JSON.stringify(data,null,1);
