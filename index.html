@@ -611,7 +611,7 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
    ファイルを更新したら APP_VERSION を上げる。
    DEFAULTS のリストに項目を足したときは DEFAULT_REV も上げると、
    利用者に「新しい項目を取り込む」ボタンが出る。 */
-var APP_VERSION = "2.2";
+var APP_VERSION = "2.3";
 var DEFAULT_REV = 2;
 
 /* ---------------- storage ---------------- */
@@ -825,11 +825,13 @@ function renderHero(){
 
   if(ph==="before"){
     kick.textContent="令和8年度 米子高専 マレーシア研修旅行";
-    var dep=new Date(2026,8,7,15,15,0);
-    var d=Math.ceil((dep-new Date())/86400000);
-    el.style.fontSize=""; 
+    /* 日本時間の暦日で数える。日付が変わった瞬間に減る。 */
+    var today=partsIn("Asia/Tokyo").date;
+    var d=Math.round((Date.parse("2026-09-07T00:00:00Z")-Date.parse(today+"T00:00:00Z"))/86400000);
+    el.style.fontSize="";
     if(d>1){ el.textContent=d; lb.textContent="日後に集合"; }
-    else{ el.textContent="まもなく"; el.style.fontSize="40px"; lb.textContent="9/7 15:15 集合"; }
+    else if(d===1){ el.textContent="明日"; el.style.fontSize="46px"; lb.textContent="15:15 集合"; }
+    else{ el.textContent="今日"; el.style.fontSize="46px"; lb.textContent="15:15 集合"; }
     meet.innerHTML="集合 <strong>9\/7(月) 15:15</strong> 米子鬼太郎空港 1階 セブンイレブン前<br>NH388 17:15発 → 羽田 → NH885 23:30発（機内泊）";
     clock.innerHTML="";
     return;
@@ -1532,7 +1534,7 @@ document.getElementById("forceBtn").onclick=function(){
 
 /* init */
 redraw(); renderDays(); renderHero(); showOffline(); refreshVersionUI(); showLastCheck(); renderLive(); renderMe(); renderFiles();
-setInterval(renderHero, 30000);
+setInterval(renderHero, 20000);
 document.addEventListener("visibilitychange",function(){ if(!document.hidden){ renderHero(); renderDays(); } });
 if(!get("prep-data",null)) set("prep-rev",DEFAULT_REV);
 </script>
