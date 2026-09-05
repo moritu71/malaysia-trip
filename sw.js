@@ -8,7 +8,7 @@
  *   これを上げないと、古いキャッシュが残り続けて更新が届きません。
  */
 
-var CACHE = "prep-v11";
+var CACHE = "prep-v12";
 
 var ASSETS = [
   "./",

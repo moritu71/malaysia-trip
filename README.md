@@ -104,8 +104,8 @@ GitHub上で該当ファイルを編集するか、直したファイルを上�
 
 | ファイル | 場所 | いつ上げるか |
 |---|---|---|
-| `sw.js` | `var CACHE = "prep-v11";` | **毎回必ず**（v12, v13…） |
-| `index.html` | `var APP_VERSION = "2.4";` | 毎回（表示用） |
+| `sw.js` | `var CACHE = "prep-v12";` | **毎回必ず**（v13, v14…） |
+| `index.html` | `var APP_VERSION = "2.5";` | 毎回（表示用） |
 | `index.html` | `var DEFAULT_REV = 1;` | やること／持ち物の項目を足したときだけ |
 | `version.json` | `"version"` と `"cache"` | **毎回必ず**。index.html / sw.js と揃える |
 
