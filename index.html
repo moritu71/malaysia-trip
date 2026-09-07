@@ -279,6 +279,11 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
 .slide.done .slide-label{color:var(--green);}
 .vrow{display:flex;align-items:baseline;gap:8px;font-size:13.5px;color:var(--muted);margin-bottom:12px;}
 .vrow b{color:var(--ink);font-size:15px;font-variant-numeric:tabular-nums;}
+#vNow{display:inline-block;padding:8px 16px;margin:-4px 0;border-radius:10px;background:#EDF0F5;
+  user-select:none;-webkit-user-select:none;touch-action:manipulation;cursor:pointer;}
+#vNow:active{background:#DDE3EC;}
+#vNow.hit{background:var(--gold);color:#2A1D00;}
+#tapHint{font-size:12.5px;color:var(--gold-deep);margin:6px 0 0;min-height:16px;}
 .newitems{background:#FDF2DC;color:#7A5200;border-radius:10px;padding:11px 13px;font-size:13.5px;margin-bottom:12px;}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
@@ -552,6 +557,7 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
     <div class="set">
       <h2>バージョン</h2>
       <div class="vrow">このアプリ <b id="vNow">–</b></div>
+      <p id="tapHint"></p>
       <div id="newItems" class="newitems" style="display:none">
         リストに新しい項目が追加されています。取り込むと、今あるチェックや自分で足した項目はそのまま残ります。
         <button class="b pri" id="mergeBtn" style="width:100%;margin-top:9px">新しい項目を取り込む</button>
@@ -699,7 +705,7 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
    ファイルを更新したら APP_VERSION を上げる。
    DEFAULTS のリストに項目を足したときは DEFAULT_REV も上げると、
    利用者に「新しい項目を取り込む」ボタンが出る。 */
-var APP_VERSION = "2.6";
+var APP_VERSION = "2.7";
 var DEFAULT_REV = 4;
 var REPO = "moritu71/malaysia-trip";   /* 管理画面のGitHub編集リンクに使う */
 
@@ -1771,17 +1777,48 @@ function buildAdminLink(){
   if(a) a.href="https://github.com/"+REPO+"/edit/main/content.json";
 }
 
-/* --- 5回タップ --- */
-var admTaps=0, admTimer=null;
+/* --- 5回タップ（pointerdown なので iOS でも取りこぼさない） --- */
+var admTaps=0, admTimer=null, admLast=0;
 (function(){
-  var v=document.getElementById("vNow"); if(!v) return;
-  v.style.cursor="pointer";
-  v.addEventListener("click",function(){
+  var v=document.getElementById("vNow"), hint=document.getElementById("tapHint");
+  if(!v) return;
+
+  function feedback(){
+    v.classList.add("hit");
+    setTimeout(function(){ v.classList.remove("hit"); },130);
+    hint.textContent = admTaps>=5 ? "" : "あと "+(5-admTaps)+" 回";
+  }
+  function reset(){ admTaps=0; hint.textContent=""; }
+
+  function tap(e){
     if(admUnlocked) return;
-    clearTimeout(admTimer); admTaps++;
-    admTimer=setTimeout(function(){ admTaps=0; },1200);
-    if(admTaps>=5){ admTaps=0; showGate(true); }
-  });
+    /* pointerdown と click の二重発火を防ぐ */
+    var now=Date.now();
+    if(now-admLast<60) return;
+    admLast=now;
+
+    clearTimeout(admTimer);
+    admTaps++;
+    feedback();
+    admTimer=setTimeout(reset,2000);          /* 2秒まで猶予 */
+    if(admTaps>=5){ clearTimeout(admTimer); reset(); showGate(true); }
+  }
+
+  if(window.PointerEvent) v.addEventListener("pointerdown",tap);
+  else { v.addEventListener("touchstart",tap,{passive:true}); v.addEventListener("mousedown",tap); }
+
+  /* 長押し（0.8秒）でも開く */
+  var lpTimer=null;
+  function lpStart(){ clearTimeout(lpTimer); lpTimer=setTimeout(function(){
+    if(!admUnlocked){ reset(); showGate(true); } },800); }
+  function lpEnd(){ clearTimeout(lpTimer); }
+  v.addEventListener("pointerdown",lpStart);
+  v.addEventListener("pointerup",lpEnd);
+  v.addEventListener("pointercancel",lpEnd);
+  v.addEventListener("pointerleave",lpEnd);
+  v.addEventListener("touchstart",lpStart,{passive:true});
+  v.addEventListener("touchend",lpEnd);
+  v.addEventListener("contextmenu",function(e){ e.preventDefault(); });
 })();
 
 /* --- スライダー --- */
