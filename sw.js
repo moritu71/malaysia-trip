@@ -8,12 +8,13 @@
  *   これを上げないと、古いキャッシュが残り続けて更新が届きません。
  */
 
-var CACHE = "prep-v12";
+var CACHE = "prep-v13";
 
 var ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
+  "./content.json",
   "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png"

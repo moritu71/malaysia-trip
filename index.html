@@ -267,6 +267,16 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
 #upd span{flex:1;font-size:14px;line-height:1.45;}
 #upd button{appearance:none;border:0;background:var(--gold);color:#2A1D00;font:inherit;font-size:14px;
   font-weight:700;padding:9px 16px;border-radius:20px;cursor:pointer;white-space:nowrap;}
+.slide{position:relative;height:52px;border-radius:26px;background:#EDF0F5;border:1px solid var(--line);
+  overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none;margin-bottom:12px;}
+.slide-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:600;color:var(--muted);pointer-events:none;}
+.slide-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#DCE6DF;}
+.slide-handle{position:absolute;top:4px;left:4px;width:44px;height:42px;border-radius:21px;
+  background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:700;cursor:grab;}
+.slide.done .slide-handle{background:var(--green);}
+.slide.done .slide-label{color:var(--green);}
 .vrow{display:flex;align-items:baseline;gap:8px;font-size:13.5px;color:var(--muted);margin-bottom:12px;}
 .vrow b{color:var(--ink);font-size:15px;font-variant-numeric:tabular-nums;}
 .newitems{background:#FDF2DC;color:#7A5200;border-radius:10px;padding:11px 13px;font-size:13.5px;margin-bottom:12px;}
@@ -551,6 +561,7 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
       <button class="b sec" id="checkUpd" style="width:100%">更新を確認する</button>
       <p id="updMsg" style="margin:8px 0 0"></p>
       <p id="lastChk" style="margin:6px 0 0;font-size:12.5px;color:var(--muted)"></p>
+      <div class="vrow">リストの内容 rev <b id="cRev">–</b></div>
       <div id="forceBox" style="display:none;margin-top:14px">
         <div class="newitems">
           更新がうまく入らないときは、アプリ本体を捨てて取り直せます。
@@ -585,6 +596,58 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
         <button class="b pri" id="loadJson">読み込む</button>
       </div>
       <p id="jsonMsg" style="margin:4px 0 0"></p>
+    </div>
+
+    <div class="set" id="admGate" style="display:none">
+      <h2>ロック解除</h2>
+      <p id="admGateHint">つまみを右端までスライドしてください。</p>
+      <div class="slide" id="admSlide">
+        <div class="slide-fill" id="admFill"></div>
+        <span class="slide-label" id="admSlideLabel">スライドして解錠</span>
+        <div class="slide-handle" id="admHandle">›</div>
+      </div>
+      <div id="admPwWrap" style="display:none">
+        <label class="f" for="admPw">パスワード</label>
+        <input type="password" id="admPw" autocomplete="off" autocapitalize="none" spellcheck="false">
+        <div id="admPw2Wrap" style="display:none">
+          <label class="f" for="admPw2">パスワード（確認）</label>
+          <input type="password" id="admPw2" autocomplete="off" autocapitalize="none" spellcheck="false">
+        </div>
+        <div class="row">
+          <button class="b sec" id="admCancel">やめる</button>
+          <button class="b pri" id="admOpen">開く</button>
+        </div>
+      </div>
+      <p id="admGateMsg" style="margin:4px 0 0;font-size:13.5px"></p>
+    </div>
+
+    <div class="set" id="adminBox" style="display:none">
+      <h2>管理者モード</h2>
+      <p>今のリストを <b>content.json</b> の形にして配信できます。GitHubで貼り替えると、リンクを渡した全員に届きます。</p>
+      <ol style="font-size:14px;padding-left:20px;margin:0 0 12px">
+        <li style="margin-bottom:5px">下の「配信用に書き出す」を押す</li>
+        <li style="margin-bottom:5px">「コピー」を押す</li>
+        <li style="margin-bottom:5px">「GitHubで編集」を開く</li>
+        <li style="margin-bottom:5px">中身を全選択して削除し、貼り付ける</li>
+        <li>下の Commit changes を押す</li>
+      </ol>
+      <div class="row">
+        <button class="b sec" id="admDump">配信用に書き出す</button>
+        <button class="b pri" id="admCopy">コピー</button>
+      </div>
+      <a class="b sec" id="admEdit" href="#" target="_blank" rel="noopener"
+         style="display:block;width:100%;text-align:center;text-decoration:none;margin-bottom:10px">GitHubで編集</a>
+      <textarea id="admJson" spellcheck="false" style="min-height:170px"></textarea>
+      <p id="admMsg" style="margin:6px 0 0;font-size:13.5px"></p>
+      <div class="warn" style="margin-top:12px">rev は自動で +1 されます。<b>受け取る側は「更新を確認する」を押したときだけ</b>反映されるので、勝手に書き換わることはありません。</div>
+
+      <h3 style="margin:18px 0 8px;font-size:13.5px;font-weight:700;color:var(--ink-soft)">パスワード</h3>
+      <div class="row">
+        <button class="b sec" id="admChangePw">変更する</button>
+        <button class="b sec" id="admLock">ロックする</button>
+      </div>
+      <p id="admPwMsg" style="margin:4px 0 0;font-size:13.5px"></p>
+      <p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">アプリを開き直すと自動でロックされます。パスワードはハッシュ化して保存され、元の文字列は残りません。</p>
     </div>
   </section>
 
@@ -636,8 +699,9 @@ footer{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 14px 0;
    ファイルを更新したら APP_VERSION を上げる。
    DEFAULTS のリストに項目を足したときは DEFAULT_REV も上げると、
    利用者に「新しい項目を取り込む」ボタンが出る。 */
-var APP_VERSION = "2.5";
-var DEFAULT_REV = 3;
+var APP_VERSION = "2.6";
+var DEFAULT_REV = 4;
+var REPO = "moritu71/malaysia-trip";   /* 管理画面のGitHub編集リンクに使う */
 
 /* ---------------- storage ---------------- */
 var mem={}, hasLS=false;
@@ -776,7 +840,7 @@ var DAYS=[
 
 /* ---------------- state ---------------- */
 function clone(o){ return JSON.parse(JSON.stringify(o)); }
-var data  = get("prep-data", null) || clone(DEFAULTS);
+var data  = get("prep-data", null) || clone(activeDefaults());
 var checks= get("prep-checks", {});
 var editing=false;
 
@@ -1100,7 +1164,7 @@ document.getElementById("clearChecks").onclick=function(){
 };
 document.getElementById("restoreDefaults").onclick=function(){
   if(!confirm("追加・編集した項目をすべて破棄して初期状態に戻します。よろしいですか？")) return;
-  data=clone(DEFAULTS); saveData(); set("prep-collapse",{}); redraw();
+  data=clone(activeDefaults()); saveData(); set("prep-rev",contentRev()); set("prep-collapse",{}); redraw();
 };
 document.getElementById("dumpJson").onclick=function(){
   document.getElementById("json").value=JSON.stringify(data,null,1);
@@ -1128,16 +1192,25 @@ function showOffline(){
 window.addEventListener("online",showOffline);
 window.addEventListener("offline",showOffline);
 
-/* ---------------- new default items ---------------- */
+/* ---------------- 配信コンテンツ（content.json） ----------------
+   やること・持ち物の中身は content.json に置く。
+   index.html の DEFAULTS は、まだ一度も取得できていないときの控え。 */
+function activeDefaults(){
+  var c=get("prep-content",null);
+  return (c && c.todo && c.pack) ? c : DEFAULTS;
+}
+function contentRev(){ return get("prep-contentrev", DEFAULT_REV); }
+function appliedRev(){ return get("prep-rev", 0); }
+
 function pendingNewItems(){
-  if(get("prep-rev",0)>=DEFAULT_REV) return false;
+  if(appliedRev()>=contentRev()) return false;
   if(!get("prep-data",null)) return false;   /* 未編集なら常に最新が出るので不要 */
   return true;
 }
 function mergeDefaults(){
-  var added=0;
+  var src=activeDefaults(), added=0;
   ["todo","pack"].forEach(function(key){
-    (DEFAULTS[key]||[]).forEach(function(dg){
+    (src[key]||[]).forEach(function(dg){
       var r=findGroup(key,dg.gid);
       if(!r){ data[key].push(clone(dg)); added+=dg.items.length; return; }
       dg.items.forEach(function(di){
@@ -1146,12 +1219,32 @@ function mergeDefaults(){
       });
     });
   });
-  set("prep-rev",DEFAULT_REV);
+  set("prep-rev",contentRev());
   saveData(); redraw(); refreshVersionUI();
   alert(added?(added+"件の項目を追加しました"):"追加する項目はありませんでした");
 }
+
+/* content.json を取り込む。押したときだけ呼ばれる。 */
+function fetchContent(){
+  return fetch("./content.json?t="+Date.now(),{cache:"no-store"})
+    .then(function(r){ return r.json(); })
+    .then(function(c){
+      if(!c||!c.todo||!c.pack||typeof c.rev!=="number") throw new Error("content.json の形式が不正");
+      var before=contentRev();
+      set("prep-content",{todo:c.todo,pack:c.pack});
+      set("prep-contentrev",c.rev);
+      if(!get("prep-data",null)){
+        /* 未編集の人は黙って最新に差し替える */
+        data=clone(activeDefaults()); set("prep-rev",c.rev); redraw();
+      }
+      refreshVersionUI();
+      return {rev:c.rev, changed:c.rev>before};
+    });
+}
+
 function refreshVersionUI(){
   document.getElementById("vNow").textContent=APP_VERSION;
+  var cr=document.getElementById("cRev"); if(cr) cr.textContent=contentRev();
   document.getElementById("newItems").style.display=pendingNewItems()?"block":"none";
 }
 document.getElementById("mergeBtn").onclick=mergeDefaults;
@@ -1554,12 +1647,22 @@ document.getElementById("checkUpd").onclick=function(){
     markChecked();
     if(!v||!v.version) throw new Error("版が読めません");
     if(v.version===APP_VERSION){
-      m.style.color="var(--green)"; m.textContent="最新の状態です（"+v.version+"）";
-      document.getElementById("forceBox").style.display="none";
-      return;
+      /* 本体は最新。中身（content.json）だけ新しくなっている場合がある */
+      return fetchContent().then(function(r){
+        if(r.changed && pendingNewItems()){
+          m.style.color="var(--gold-deep)"; m.textContent="リストに新しい項目があります。下の「新しい項目を取り込む」を押してください。";
+        }else{
+          m.style.color="var(--green)"; m.textContent="最新の状態です（"+v.version+" / 内容 rev"+r.rev+"）";
+        }
+        document.getElementById("forceBox").style.display="none";
+      }).catch(function(){
+        m.style.color="var(--green)"; m.textContent="最新の状態です（"+v.version+"）";
+        document.getElementById("forceBox").style.display="none";
+      });
     }
     m.style.color="var(--gold-deep)";
     m.textContent="サーバー側は "+v.version+"、この端末は "+APP_VERSION+" です。取り込んでいます…";
+    fetchContent().catch(function(){});
     return navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(function(r){
       bindReg(r); return r.update();
     }).then(function(){
@@ -1604,11 +1707,209 @@ document.getElementById("forceBtn").onclick=function(){
   });
 };
 
+
+/* ---------------- 管理者モード ----------------
+   設定タブのバージョン番号を5回タップ → スライダーが出る
+   → 右端までスライド → パスワード入力欄が出る → 一致で解錠。
+   クライアント側の鍵なので絶対的な防御ではない。content.json を
+   実際に書き換えられるのは GitHub に push 権限がある人だけ。 */
+
+var admUnlocked=false;   /* 起動中のみ有効。アプリを開き直すと再ロック */
+
+/* --- ハッシュ --- */
+function toHex(buf){
+  return Array.prototype.map.call(new Uint8Array(buf),function(b){
+    return ("0"+b.toString(16)).slice(-2); }).join("");
+}
+function randHex(n){
+  var a=new Uint8Array(n);
+  if(window.crypto&&crypto.getRandomValues) crypto.getRandomValues(a);
+  else for(var i=0;i<n;i++) a[i]=Math.floor(Math.random()*256);
+  return toHex(a.buffer);
+}
+function hashPw(pw,salt){
+  var data=new TextEncoder().encode(salt+"|"+pw);
+  if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+    return crypto.subtle.digest("SHA-256",data).then(toHex);
+  }
+  /* 最終手段（暗号強度なし）。通常はここに来ない。 */
+  var h=5381; for(var i=0;i<data.length;i++) h=((h*33)^data[i])>>>0;
+  return Promise.resolve("weak:"+h.toString(16));
+}
+function hasPw(){ return !!get("prep-admin-hash",""); }
+function setPw(pw){
+  var salt=randHex(16);
+  return hashPw(pw,salt).then(function(h){
+    set("prep-admin-salt",salt); set("prep-admin-hash",h);
+  });
+}
+function checkPw(pw){
+  var salt=get("prep-admin-salt",""), want=get("prep-admin-hash","");
+  if(!want) return Promise.resolve(false);
+  return hashPw(pw,salt).then(function(h){ return h===want; });
+}
+
+/* --- 表示切り替え --- */
+function showGate(on){
+  document.getElementById("admGate").style.display=on?"block":"none";
+  if(on) resetSlide();
+}
+function openAdmin(){
+  admUnlocked=true;
+  showGate(false);
+  document.getElementById("adminBox").style.display="block";
+  buildAdminLink();
+}
+function lockAdmin(){
+  admUnlocked=false;
+  document.getElementById("adminBox").style.display="none";
+  showGate(false);
+  document.getElementById("admJson").value="";
+}
+function buildAdminLink(){
+  var a=document.getElementById("admEdit");
+  if(a) a.href="https://github.com/"+REPO+"/edit/main/content.json";
+}
+
+/* --- 5回タップ --- */
+var admTaps=0, admTimer=null;
+(function(){
+  var v=document.getElementById("vNow"); if(!v) return;
+  v.style.cursor="pointer";
+  v.addEventListener("click",function(){
+    if(admUnlocked) return;
+    clearTimeout(admTimer); admTaps++;
+    admTimer=setTimeout(function(){ admTaps=0; },1200);
+    if(admTaps>=5){ admTaps=0; showGate(true); }
+  });
+})();
+
+/* --- スライダー --- */
+var slide=document.getElementById("admSlide"),
+    handle=document.getElementById("admHandle"),
+    fill=document.getElementById("admFill"),
+    slideLabel=document.getElementById("admSlideLabel"),
+    dragging=false, startX=0, curX=0, maxX=0;
+
+function resetSlide(){
+  dragging=false; curX=0;
+  slide.classList.remove("done");
+  handle.style.left="4px"; fill.style.width="0";
+  slideLabel.textContent="スライドして解錠";
+  document.getElementById("admPwWrap").style.display="none";
+  document.getElementById("admPw").value="";
+  document.getElementById("admPw2").value="";
+  document.getElementById("admGateMsg").textContent="";
+  document.getElementById("admPw2Wrap").style.display="none";
+}
+function slideDone(){
+  slide.classList.add("done");
+  slideLabel.textContent="解錠";
+  var wrap=document.getElementById("admPwWrap"), msg=document.getElementById("admGateMsg");
+  wrap.style.display="block";
+  if(!hasPw()){
+    document.getElementById("admPw2Wrap").style.display="block";
+    document.getElementById("admGateHint").textContent="初回です。管理者パスワードを決めてください。";
+    msg.style.color="var(--muted)"; msg.textContent="4文字以上。忘れると管理者モードに入れなくなります。";
+  }
+  setTimeout(function(){ document.getElementById("admPw").focus(); },80);
+}
+function onDown(e){
+  if(slide.classList.contains("done")) return;
+  dragging=true;
+  maxX=slide.clientWidth-handle.offsetWidth-8;
+  startX=(e.touches?e.touches[0].clientX:e.clientX)-curX;
+  handle.style.cursor="grabbing";
+}
+function onMove(e){
+  if(!dragging) return;
+  e.preventDefault();
+  var x=(e.touches?e.touches[0].clientX:e.clientX)-startX;
+  curX=Math.max(0,Math.min(maxX,x));
+  handle.style.left=(4+curX)+"px";
+  fill.style.width=(curX+44)+"px";
+  if(curX>=maxX-2){ dragging=false; slideDone(); }
+}
+function onUp(){
+  if(!dragging) return;
+  dragging=false; handle.style.cursor="grab";
+  if(!slide.classList.contains("done")){
+    curX=0; handle.style.left="4px"; fill.style.width="0";
+  }
+}
+handle.addEventListener("mousedown",onDown);
+handle.addEventListener("touchstart",onDown,{passive:true});
+document.addEventListener("mousemove",onMove);
+document.addEventListener("touchmove",onMove,{passive:false});
+document.addEventListener("mouseup",onUp);
+document.addEventListener("touchend",onUp);
+
+/* --- 解錠 / 初回設定 --- */
+document.getElementById("admCancel").onclick=function(){ showGate(false); };
+document.getElementById("admOpen").onclick=function(){
+  var pw=document.getElementById("admPw").value,
+      msg=document.getElementById("admGateMsg");
+  if(!hasPw()){
+    var pw2=document.getElementById("admPw2").value;
+    if(pw.length<4){ msg.style.color="var(--red)"; msg.textContent="4文字以上にしてください"; return; }
+    if(pw!==pw2){ msg.style.color="var(--red)"; msg.textContent="確認用と一致しません"; return; }
+    setPw(pw).then(function(){ openAdmin(); }).catch(function(){
+      msg.style.color="var(--red)"; msg.textContent="設定できませんでした";
+    });
+    return;
+  }
+  checkPw(pw).then(function(ok){
+    if(ok) openAdmin();
+    else { msg.style.color="var(--red)"; msg.textContent="パスワードが違います";
+           document.getElementById("admPw").value=""; }
+  });
+};
+
+/* --- パスワード変更 / ロック --- */
+document.getElementById("admChangePw").onclick=function(){
+  var m=document.getElementById("admPwMsg");
+  var cur=prompt("今のパスワード"); if(cur===null) return;
+  checkPw(cur).then(function(ok){
+    if(!ok){ m.style.color="var(--red)"; m.textContent="今のパスワードが違います"; return; }
+    var np=prompt("新しいパスワード（4文字以上）"); if(np===null) return;
+    np=np.trim();
+    if(np.length<4){ m.style.color="var(--red)"; m.textContent="4文字以上にしてください"; return; }
+    var np2=prompt("もう一度入力"); if(np2===null) return;
+    if(np!==np2){ m.style.color="var(--red)"; m.textContent="確認用と一致しません"; return; }
+    setPw(np).then(function(){ m.style.color="var(--green)"; m.textContent="変更しました"; });
+  });
+};
+document.getElementById("admLock").onclick=function(){ lockAdmin(); };
+
+/* --- 書き出し / コピー --- */
+document.getElementById("admDump").onclick=function(){
+  var out={rev:contentRev()+1,
+           note:"やること・持ち物の内容。ここを編集すると全員に配れます。編集したら rev を必ず +1 してください。",
+           todo:data.todo, pack:data.pack};
+  document.getElementById("admJson").value=JSON.stringify(out,null,1);
+  var m=document.getElementById("admMsg");
+  m.style.color="var(--muted)"; m.textContent="rev"+out.rev+" として書き出しました";
+};
+document.getElementById("admCopy").onclick=function(){
+  var t=document.getElementById("admJson"), m=document.getElementById("admMsg");
+  if(!t.value){ m.style.color="var(--red)"; m.textContent="先に「配信用に書き出す」を押してください"; return; }
+  function ok(){ m.style.color="var(--green)"; m.textContent="コピーしました"; }
+  function ng(){ m.style.color="var(--muted)"; m.textContent="枠内を長押しして「すべてを選択」→「コピー」でも取れます"; }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t.value).then(ok).catch(function(){
+      t.focus(); t.setSelectionRange(0,t.value.length); ng();
+    });
+  }else{
+    t.focus(); t.setSelectionRange(0,t.value.length);
+    try{ document.execCommand("copy") ? ok() : ng(); }catch(e){ ng(); }
+  }
+};
+
 /* init */
 redraw(); renderDays(); renderHero(); showOffline(); refreshVersionUI(); showLastCheck(); renderLive(); renderMe(); renderFiles();
 setInterval(renderHero, 20000);
 document.addEventListener("visibilitychange",function(){ if(!document.hidden){ renderHero(); renderDays(); } });
-if(!get("prep-data",null)) set("prep-rev",DEFAULT_REV);
+if(!get("prep-data",null)) set("prep-rev",contentRev());
 </script>
 </body>
 </html>
